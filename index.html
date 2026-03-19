@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BioMimi</title>
+  <meta
+    name="description"
+    content="BioMimi is a biomimicry learning platform for architecture, engineering, and sustainable cities."
+  >
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="./styles/main.css">
+  <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand-lockup">
+        <div class="brand-mark" aria-hidden="true"></div>
+        <div>
+          <h1>BioMimi</h1>
+        </div>
+      </div>
+
+      <nav class="topnav" id="topnav" aria-label="Primary">
+        <a href="#/explore" data-route-link="explore" data-i18n="navExplore">Explore Cards</a>
+        <a href="#/mission" data-route-link="mission" data-i18n="navMission">Mission Generator</a>
+        <a href="#/battle" data-route-link="battle" data-i18n="navBattle">Ecosystem Design Battle</a>
+      </nav>
+
+      <div class="topbar-right">
+        <div class="language-toggle" data-language-toggle aria-label="Language switcher">
+          <button type="button" data-lang="en" aria-pressed="true">EN</button>
+          <button type="button" data-lang="pt-BR" aria-pressed="false">PT-BR</button>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" type="button" aria-label="Toggle menu" aria-expanded="false">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </header>
+
+    <main id="app" class="app-main" aria-live="polite"></main>
+  </div>
+
+  <div id="modal-root"></div>
+
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>
