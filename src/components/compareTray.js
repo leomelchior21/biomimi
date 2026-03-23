@@ -1,5 +1,6 @@
 import { STAT_KEYS, STAT_LABELS } from "../data/organisms.js";
 import { renderRadarChart } from "./radarChart.js";
+import { t } from "../i18n.js";
 
 export function renderCompareTray(container, cards, { onRemove, onClear, onOpen }) {
   if (!cards.length) {
@@ -12,10 +13,10 @@ export function renderCompareTray(container, cards, { onRemove, onClear, onOpen 
   container.innerHTML = `
     <div class="compare-tray-head">
       <div>
-        <p class="panel-eyebrow">Compare Tray</p>
-        <h3>${cards.length === 1 ? "Pick one more card to compare" : "Biomimicry comparison"}</h3>
+        <p class="panel-eyebrow">${t("compareTrayLabel")}</p>
+        <h3>${cards.length === 1 ? t("comparePickMore") : t("compareTitle")}</h3>
       </div>
-      <button class="btn-ghost" type="button" data-compare-clear>Clear</button>
+      <button class="btn-ghost" type="button" data-compare-clear>${t("compareClear")}</button>
     </div>
     <div class="compare-grid">
       ${cards.map((card) => `
@@ -25,12 +26,12 @@ export function renderCompareTray(container, cards, { onRemove, onClear, onOpen 
               <strong>${card.name}</strong>
               <div class="panel-copy">${card.principle}</div>
             </div>
-            <button class="card-action-btn" type="button" data-compare-remove="${card.id}">Remove</button>
+            <button class="card-action-btn" type="button" data-compare-remove="${card.id}">${t("compareRemove")}</button>
           </div>
           <canvas class="compare-radar" data-compare-radar="${card.id}"></canvas>
           <div class="compare-details">
-            <div><span class="meta-label">Application</span><p>${card.architectureExample}</p></div>
-            <div><span class="meta-label">Why it matters</span><p>${card.designTakeaway}</p></div>
+            <div><span class="meta-label">${t("compareApplication")}</span><p>${card.architectureExample}</p></div>
+            <div><span class="meta-label">${t("compareWhyMatters")}</span><p>${card.designTakeaway}</p></div>
           </div>
           <div class="compare-stat-list">
             ${STAT_KEYS.map((stat) => `
@@ -40,7 +41,7 @@ export function renderCompareTray(container, cards, { onRemove, onClear, onOpen 
               </div>
             `).join("")}
           </div>
-          <button class="btn-secondary" type="button" data-compare-open="${card.id}">Open deep dive</button>
+          <button class="btn-secondary" type="button" data-compare-open="${card.id}">${t("compareOpenDeep")}</button>
         </article>
       `).join("")}
     </div>

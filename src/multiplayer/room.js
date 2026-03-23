@@ -1,11 +1,12 @@
 import { ORGANISMS, STAT_KEYS, STAT_LABELS } from "../data/organisms.js";
 import { MISSIONS } from "../data/missions.js";
 import { createClientPeer, createHostPeer, createRoomCode } from "./peerConnection.js";
+import { shuffle } from "../utils.js";
 
 const TOTAL_ROUNDS = 6;
 const POINTS_BY_PLACE = [3, 2, 1, 0];
 
-const CHALLENGES = MISSIONS.slice(0, TOTAL_ROUNDS).map((mission) => ({
+const CHALLENGES = MISSIONS.slice(0, Math.min(TOTAL_ROUNDS, MISSIONS.length)).map((mission) => ({
   id: mission.id,
   title: mission.title,
   focusStat: mission.statFocus,
@@ -15,22 +16,15 @@ const CHALLENGES = MISSIONS.slice(0, TOTAL_ROUNDS).map((mission) => ({
   category: mission.category,
 }));
 
-function shuffle(items) {
-  const copy = [...items];
-  for (let index = copy.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
-  }
-  return copy;
-}
-
 function safeSend(connection, payload) {
   if (!connection || connection.open === false) {
     return;
   }
   try {
     connection.send(payload);
-  } catch (_) {}
+  } catch (err) {
+    console.warn("[safeSend] failed to send message:", err);
+  }
 }
 
 function overlapCount(a, b) {
@@ -256,6 +250,102 @@ export function hostRoom({ name, onState, onError }) {
       controller.roundIndex = 0;
       controller.finalStandings = null;
       prepareRound(controller, onState);
+    },
+  };
+}
+
+export function soloRoom({ name, onState }) {
+  const PLAYER_ID = "solo";
+  const ctrl = {
+    stage: "round",
+    roundIndex: 0,
+    round: null,
+    deck: [],
+    score: 0,
+    lastRoundPoints: null,
+    insight: null,
+    finalStandings: null,
+  };
+
+  function snap() {
+    return {
+      roomCode: "SOLO",
+      stage: ctrl.stage,
+      role: "host",
+      isSolo: true,
+      players: [{ id: PLAYER_ID, name, score: ctrl.score, ready: true, connected: true, isSelf: true, lastRoundPoints: ctrl.lastRoundPoints }],
+      canStart: false,
+      statusLabel: ctrl.stage === "round" ? "Solo round" : ctrl.stage === "insight" ? "Insight" : "Complete",
+      roundNumber: ctrl.roundIndex + 1,
+      totalRounds: TOTAL_ROUNDS,
+      challenge: ctrl.round?.challenge ?? null,
+      currentCard: ctrl.stage === "round" ? ctrl.round?.card ?? null : null,
+      submittedChoice: ctrl.stage === "round" ? ctrl.round?.choice ?? null : null,
+      pendingPlayers: [],
+      insight: ctrl.insight,
+      finalStandings: ctrl.finalStandings,
+    };
+  }
+
+  function startRound() {
+    if (ctrl.deck.length < 1) ctrl.deck = shuffle(ORGANISMS);
+    const card = ctrl.deck.pop();
+    ctrl.round = { challenge: CHALLENGES[ctrl.roundIndex], card, choice: null };
+    ctrl.stage = "round";
+    ctrl.insight = null;
+    onState(snap());
+  }
+
+  function resolveRound(stat) {
+    const { challenge, card } = ctrl.round;
+    const base = card.stats[stat];
+    const focusBonus = stat === challenge.focusStat ? 10 : 0;
+    const tagBonus = Math.min(overlapCount(card.tags, challenge.tags) * 4, 12);
+    const total = base + focusBonus + tagBonus;
+    ctrl.lastRoundPoints = total;
+    ctrl.score += total;
+    ctrl.stage = "insight";
+    const entry = { playerId: PLAYER_ID, playerName: name, card, selectedStat: stat, base, focusBonus, tagBonus, total, place: 1, pointsAwarded: total };
+    ctrl.insight = {
+      challenge,
+      winner: entry,
+      placements: [entry],
+      designInsightTitle: `${card.name} — ${challenge.title}`,
+      designInsightBody: `${card.name} scored ${total} points using ${STAT_LABELS[stat].toLowerCase()}. ${card.designTakeaway}`,
+    };
+    onState(snap());
+  }
+
+  ctrl.deck = shuffle(ORGANISMS);
+  startRound();
+
+  return {
+    leave() {},
+    setReady() {},
+    startMatch() {},
+    submitChoice(stat) {
+      if (ctrl.stage === "round" && STAT_KEYS.includes(stat) && !ctrl.round.choice) {
+        ctrl.round.choice = stat;
+        resolveRound(stat);
+      }
+    },
+    nextRound() {
+      if (ctrl.stage !== "insight") return;
+      if (ctrl.roundIndex >= TOTAL_ROUNDS - 1) {
+        ctrl.stage = "final";
+        ctrl.finalStandings = [{ id: PLAYER_ID, name, score: ctrl.score, ready: true, connected: true, isSelf: true, lastRoundPoints: ctrl.lastRoundPoints }];
+        onState(snap());
+        return;
+      }
+      ctrl.roundIndex += 1;
+      startRound();
+    },
+    restart() {
+      ctrl.roundIndex = 0;
+      ctrl.score = 0;
+      ctrl.lastRoundPoints = null;
+      ctrl.deck = shuffle(ORGANISMS);
+      startRound();
     },
   };
 }

@@ -1,3 +1,5 @@
+import { t } from "../i18n.js";
+
 export function renderMissionPanel(container, payload) {
   const {
     mission,
@@ -13,29 +15,29 @@ export function renderMissionPanel(container, payload) {
   container.innerHTML = `
     <div class="mission-panel-head">
       <div>
-        <p class="panel-eyebrow">Mission Generator</p>
-        <h3>${mission ? mission.title : "Generate a biomimicry mission"}</h3>
-        <p>${mission ? mission.description : "Turn the specimen wall into an active design challenge and test your chosen organisms."}</p>
+        <p class="panel-eyebrow">${t("missionPanelEyebrow")}</p>
+        <h3>${mission ? mission.title : t("missionPanelPlaceholder")}</h3>
+        <p>${mission ? mission.description : t("missionPanelDesc")}</p>
       </div>
       <div class="action-row">
-        <button class="btn" type="button" data-mission-generate>${mission ? "New mission" : "Generate mission"}</button>
-        ${mission ? `<button class="btn-ghost" type="button" data-mission-clear>Clear mission</button>` : ""}
+        <button class="btn" type="button" data-mission-generate>${mission ? t("missionNew") : t("missionGenerate")}</button>
+        ${mission ? `<button class="btn-ghost" type="button" data-mission-clear>${t("missionClearBtn")}</button>` : ""}
       </div>
     </div>
     ${mission ? `
       <div class="mission-brief-grid">
         <div class="mission-brief-card">
-          <span class="meta-label">Difficulty</span>
+          <span class="meta-label">${t("missionDifficulty")}</span>
           <strong>${mission.difficulty}</strong>
           <p>${mission.category}</p>
         </div>
         <div class="mission-brief-card">
-          <span class="meta-label">Stat Focus</span>
+          <span class="meta-label">${t("missionStatFocus")}</span>
           <strong>${mission.statFocusLabel}</strong>
-          <p>Scoring rewards strategies that perform well on this dimension.</p>
+          <p>${t("missionStatHint")}</p>
         </div>
         <div class="mission-brief-card">
-          <span class="meta-label">Suggested organisms</span>
+          <span class="meta-label">${t("missionSuggested")}</span>
           <strong>${mission.suggestedOrganisms.length}</strong>
           <p>${mission.suggestedOrganismNames.join(", ")}</p>
         </div>
@@ -45,18 +47,18 @@ export function renderMissionPanel(container, payload) {
       </div>
       <div class="mission-selection-row">
         <div class="mission-selected">
-          <span class="meta-label">Selected solution cards</span>
+          <span class="meta-label">${t("missionSelectedLabel")}</span>
           <div class="mission-selected-list">
-            ${selectedCards.length ? selectedCards.map((card) => `<span class="mission-card-chip">${card.name}</span>`).join("") : `<span class="panel-copy">Select 1-3 cards from the wall.</span>`}
+            ${selectedCards.length ? selectedCards.map((card) => `<span class="mission-card-chip">${card.name}</span>`).join("") : `<span class="panel-copy">${t("missionSelectHint")}</span>`}
           </div>
         </div>
-        <button class="btn-secondary" type="button" data-mission-test ${canTest ? "" : "disabled"}>Test Design</button>
+        <button class="btn-secondary" type="button" data-mission-test ${canTest ? "" : "disabled"}>${t("missionTestBtn")}</button>
       </div>
       ${missionResult ? `
         <div class="mission-result">
           <div class="mission-result-head">
             <div>
-              <span class="meta-label">Result</span>
+              <span class="meta-label">${t("missionResultLabel")}</span>
               <h4>${missionResult.successLevel}</h4>
             </div>
             <div class="mission-score-pill">${missionResult.totalScore}</div>

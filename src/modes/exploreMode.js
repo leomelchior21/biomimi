@@ -1,6 +1,8 @@
 import { ORGANISMS, STAT_KEYS, STAT_LABELS, KINGDOM_COLORS } from "../data/organisms.js";
 import { renderCardGrid } from "../components/cardGrid.js";
 import { renderCompareTray } from "../components/compareTray.js";
+import { shuffle, debounce } from "../utils.js";
+import { t, subscribeLanguage } from "../i18n.js";
 
 function relatedCards(card) {
   return card.relatedIds.map((id) => ORGANISMS.find((candidate) => candidate.id === id)).filter(Boolean);
@@ -19,7 +21,7 @@ function createPerformanceRings(card) {
   const r = 36;
   const cx = 50;
   const cy = 50;
-  const circumference = Math.PI * r; // semicircle arc length
+  const circumference = Math.PI * r;
 
   return `
     <div class="perf-arc-grid">
@@ -29,18 +31,18 @@ function createPerformanceRings(card) {
         const arcPath = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
         return `
           <div class="perf-arc-card">
-            <svg class="perf-arc-svg" viewBox="0 0 100 58" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="${arcPath}" fill="none" stroke="rgba(20,32,51,0.08)" stroke-width="8" stroke-linecap="round"/>
+            <svg class="perf-arc-svg" viewBox="0 0 100 62" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="${arcPath}" fill="none" stroke="rgba(20,32,51,0.07)" stroke-width="9" stroke-linecap="round"/>
               <path
                 class="perf-arc-fill"
                 d="${arcPath}"
                 fill="none"
                 stroke="${color}"
-                stroke-width="8"
+                stroke-width="9"
                 stroke-linecap="round"
-                style="--arc-full:${circumference}; --arc-offset:${offset}; filter:drop-shadow(0 0 5px ${color}88)"
+                style="--arc-full:${circumference}; --arc-offset:${offset}; filter:drop-shadow(0 0 6px ${color}99)"
               />
-              <text x="${cx}" y="${cy - 4}" text-anchor="middle" dominant-baseline="auto" font-size="15" font-weight="700" fill="#142033" font-family="IBM Plex Mono,monospace">${value}</text>
+              <text x="${cx}" y="${cy - 2}" text-anchor="middle" dominant-baseline="auto" font-size="19" font-weight="700" fill="#142033" font-family="IBM Plex Mono,monospace">${value}</text>
             </svg>
             <span class="perf-arc-label">${STAT_LABELS[stat]}</span>
           </div>
@@ -50,36 +52,9 @@ function createPerformanceRings(card) {
   `;
 }
 
-function createPerformanceBars(card) {
-  return `
-    <div class="detail-stat-bars">
-      ${STAT_KEYS.map((stat) => `
-        <div class="detail-stat-bar-row">
-          <div class="detail-stat-bar-head">
-            <span>${STAT_LABELS[stat]}</span>
-            <strong>${card.stats[stat]}</strong>
-          </div>
-          <div class="detail-stat-bar-track">
-            <span style="width:${card.stats[stat]}%; background:${KINGDOM_COLORS[card.category]}"></span>
-          </div>
-        </div>
-      `).join("")}
-    </div>
-  `;
-}
-
 function randomCard(exceptId = null) {
   const pool = ORGANISMS.filter((card) => card.id !== exceptId);
   return pool[Math.floor(Math.random() * pool.length)];
-}
-
-function shuffle(items) {
-  const copy = [...items];
-  for (let index = copy.length - 1; index > 0; index -= 1) {
-    const swapIndex = Math.floor(Math.random() * (index + 1));
-    [copy[index], copy[swapIndex]] = [copy[swapIndex], copy[index]];
-  }
-  return copy;
 }
 
 export function renderExploreMode(root) {
@@ -90,7 +65,6 @@ export function renderExploreMode(root) {
 
   const state = {
     selectedCardId: null,
-    flippedCardId: null,
     shuffledIds: shuffledCards.map((card) => card.id),
     hasAnimatedGrid: false,
     selectedKingdom: null,
@@ -106,12 +80,12 @@ export function renderExploreMode(root) {
         <div class="explore-hero-orb explore-hero-orb-b"></div>
         <div class="explore-hero-layout">
           <div class="explore-hero-copy">
-            <p class="eyebrow">Museum of Living Design</p>
-            <h2 class="explore-hero-title">Nature already solved it.</h2>
-            <p class="explore-hero-text">Discover organisms, design principles, and architectural strategies through a living museum of biomimicry.</p>
+            <p class="eyebrow">${t("exploreEyebrow")}</p>
+            <h2 class="explore-hero-title">${t("exploreHeroTitle")}</h2>
+            <p class="explore-hero-text">${t("exploreHeroText")}</p>
             <div class="explore-hero-actions">
-              <button class="btn" type="button" id="inspire-button">Inspire Me</button>
-              <span class="explore-hero-note">Open a random organism in immersive mode.</span>
+              <button class="btn" type="button" id="inspire-button">${t("exploreInspireBtn")}</button>
+              <span class="explore-hero-note">${t("exploreInspireNote")}</span>
             </div>
           </div>
         </div>
@@ -134,10 +108,10 @@ export function renderExploreMode(root) {
   const detailPanel = root.querySelector("#detail-panel");
   const workbench = root.querySelector("#explore-workbench");
   const compareTrayRoot = root.querySelector("#compare-tray-root");
+
   root.querySelector("#inspire-button").addEventListener("click", () => {
     const card = randomCard(state.selectedCardId);
     state.selectedCardId = card.id;
-    state.flippedCardId = null;
     render();
   });
 
@@ -150,12 +124,19 @@ export function renderExploreMode(root) {
     ) {
       return;
     }
-
-    if (state.flippedCardId) {
-      state.flippedCardId = null;
+    if (state.selectedCardId) {
+      state.selectedCardId = null;
       render();
     }
   });
+
+  const KINGDOMS = ["Animals", "Plants", "Microorganisms", "Systems"];
+  const KINGDOM_LABELS = {
+    Animals: () => t("kingdomAnimals"),
+    Plants: () => t("kingdomPlants"),
+    Microorganisms: () => t("kingdomMicroorganisms"),
+    Systems: () => t("kingdomSystems"),
+  };
 
   function visibleCards() {
     let cards = state.shuffledIds
@@ -200,65 +181,57 @@ export function renderExploreMode(root) {
 
     const related = relatedCards(selected);
 
+    const isNewCard = detailPanel.dataset.openId !== selected.id;
     detailPanel.classList.remove("hidden");
     workbench.classList.add("split-active");
     detailPanel.style.setProperty("--detail-accent", `var(--${selected.category.toLowerCase()})`);
-    // On mobile, scroll the detail panel into view
-    if (window.matchMedia("(max-width: 1080px)").matches) {
-      detailPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+    detailPanel.dataset.openId = selected.id;
+    if (isNewCard && touchMode) {
+      workbench.scrollIntoView({ behavior: "smooth", block: "start" });
+      toolbar.classList.remove("toolbar-hidden");
     }
     detailPanel.innerHTML = `
       <article class="detail-panel-shell detail-article">
         <div class="detail-panel-head detail-article-head">
           <div>
-            <p class="panel-eyebrow">Design Article</p>
+            <span class="detail-kingdom">${selected.category}</span>
             <h3>${selected.name}</h3>
-            <p>${selected.description}</p>
           </div>
-          <button class="btn-ghost" type="button" id="close-detail">Close</button>
+          <button class="btn-ghost" type="button" id="close-detail">${t("detailClose")}</button>
         </div>
 
         <div class="detail-media detail-hero-media">
           ${createExpandedVisualMarkup(selected)}
-          <div class="detail-media-stats">
-            <span class="meta-label">Performance Bars</span>
-            ${createPerformanceBars(selected)}
-          </div>
         </div>
-        <section class="detail-content">
-          <section class="detail-story-intro">
-            <span class="detail-kingdom">${selected.category}</span>
-            <h2>${selected.principle}</h2>
-            <p>${selected.story}</p>
-          </section>
 
-          <section class="detail-editorial-grid">
+        <div class="detail-principle-pull">
+          <p>${selected.principle}</p>
+        </div>
+
+        <section class="detail-content">
+          <div class="detail-editorial-grid">
             <div class="detail-editorial-block">
-              <span class="meta-label">Nature</span>
-              <p>${selected.description}</p>
+              <span class="detail-col-label">${t("detailNature")}</span>
+              <p>${selected.story}</p>
             </div>
             <div class="detail-editorial-block">
-              <span class="meta-label">Principle</span>
+              <span class="detail-col-label">${t("detailPrinciple")}</span>
               <p>${selected.designTakeaway}</p>
             </div>
             <div class="detail-editorial-block">
-              <span class="meta-label">Design Application</span>
+              <span class="detail-col-label">${t("detailApplication")}</span>
               <p>${selected.architectureExample}</p>
             </div>
-          </section>
+          </div>
 
           <section class="detail-block detail-chart-block">
-            <span class="meta-label">Performance Profile</span>
+            <span class="meta-label">${t("detailPerformance")}</span>
             ${createPerformanceRings(selected)}
           </section>
 
+          ${related.length > 0 ? `
           <section class="detail-block">
-            <span class="meta-label">Applications</span>
-            <p>${selected.architectureExample}</p>
-          </section>
-
-          <section class="detail-block">
-            <span class="meta-label">Related Strategies</span>
+            <span class="meta-label">${t("detailRelated")}</span>
             <div class="detail-related-mini-grid">
               ${related.map((card) => `
                 <button class="detail-related-mini" type="button" data-related-id="${card.id}">
@@ -271,6 +244,7 @@ export function renderExploreMode(root) {
               `).join("")}
             </div>
           </section>
+          ` : ""}
         </section>
       </article>
     `;
@@ -285,10 +259,7 @@ export function renderExploreMode(root) {
         render();
       });
     });
-
   }
-
-  const KINGDOMS = ["Animals", "Plants", "Microorganisms", "Systems"];
 
   function render() {
     const cards = visibleCards();
@@ -302,24 +273,24 @@ export function renderExploreMode(root) {
           class="explore-search-input-field"
           type="search"
           id="explore-search"
-          placeholder="Search by name, principle or tag…"
+          placeholder="${t("explorePlaceholder")}"
           value="${state.search.replace(/"/g, "&quot;")}"
           autocomplete="off"
         >
         <select class="explore-sort-select" id="explore-sort">
-          <option value="random"${state.sort === "random" ? " selected" : ""}>Shuffle order</option>
-          <option value="name"${state.sort === "name" ? " selected" : ""}>A → Z</option>
-          <option value="sustainability"${state.sort === "sustainability" ? " selected" : ""}>Most sustainable</option>
-          <option value="innovation"${state.sort === "innovation" ? " selected" : ""}>Most innovative</option>
-          <option value="toughness"${state.sort === "toughness" ? " selected" : ""}>Toughest</option>
-          <option value="adaptability"${state.sort === "adaptability" ? " selected" : ""}>Most adaptable</option>
+          <option value="random"${state.sort === "random" ? " selected" : ""}>${t("exploreSortRandom")}</option>
+          <option value="name"${state.sort === "name" ? " selected" : ""}>${t("exploreSortAlpha")}</option>
+          <option value="sustainability"${state.sort === "sustainability" ? " selected" : ""}>${t("exploreSortSustainability")}</option>
+          <option value="innovation"${state.sort === "innovation" ? " selected" : ""}>${t("exploreSortInnovation")}</option>
+          <option value="toughness"${state.sort === "toughness" ? " selected" : ""}>${t("exploreSortToughness")}</option>
+          <option value="adaptability"${state.sort === "adaptability" ? " selected" : ""}>${t("exploreSortAdaptability")}</option>
         </select>
       </div>
       <div class="explore-chips-row">
         <div class="explore-filter-chips">
-          <button class="filter-chip${!state.selectedKingdom ? " active" : ""}" data-kingdom="">All <span>${ORGANISMS.length}</span></button>
+          <button class="filter-chip${!state.selectedKingdom ? " active" : ""}" data-kingdom="">${t("exploreFilterAll")} <span>${ORGANISMS.length}</span></button>
           ${KINGDOMS.map((k) => `
-            <button class="filter-chip${state.selectedKingdom === k ? " active" : ""}" data-kingdom="${k}">${k}</button>
+            <button class="filter-chip${state.selectedKingdom === k ? " active" : ""}" data-kingdom="${k}">${KINGDOM_LABELS[k]()}</button>
           `).join("")}
         </div>
         <span class="explore-count">${cards.length} of ${ORGANISMS.length}</span>
@@ -329,7 +300,7 @@ export function renderExploreMode(root) {
           <div class="explore-visited-track">
             <div class="explore-visited-fill" style="width:${Math.round((visitedCount / ORGANISMS.length) * 100)}%"></div>
           </div>
-          <span class="explore-visited-label">${visitedCount} / ${ORGANISMS.length} explored</span>
+          <span class="explore-visited-label">${visitedCount} / ${ORGANISMS.length} ${t("exploreExplored")}</span>
         </div>
       ` : ""}
     `;
@@ -339,13 +310,12 @@ export function renderExploreMode(root) {
       if (el) { el.focus(); const l = el.value.length; el.setSelectionRange(l, l); }
     }
 
-    toolbar.querySelector("#explore-search").addEventListener("input", (e) => {
+    toolbar.querySelector("#explore-search").addEventListener("input", debounce((e) => {
       state.search = e.target.value;
       state.hasAnimatedGrid = true;
       state.selectedCardId = null;
-      state.flippedCardId = null;
       render();
-    });
+    }, 150));
 
     toolbar.querySelector("#explore-sort").addEventListener("change", (e) => {
       state.sort = e.target.value;
@@ -357,7 +327,6 @@ export function renderExploreMode(root) {
       btn.addEventListener("click", () => {
         state.selectedKingdom = btn.dataset.kingdom || null;
         state.selectedCardId = null;
-        state.flippedCardId = null;
         state.hasAnimatedGrid = false;
         render();
       });
@@ -366,7 +335,7 @@ export function renderExploreMode(root) {
     renderDetail(cards);
 
     if (cards.length === 0) {
-      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">No organisms found for this filter.</div>`;
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1">${t("exploreEmpty")}</div>`;
       return;
     }
 
@@ -378,11 +347,6 @@ export function renderExploreMode(root) {
           visited.add(card.id);
           localStorage.setItem(VISITED_KEY, JSON.stringify([...visited]));
           state.selectedCardId = card.id;
-          state.flippedCardId = null;
-          render();
-        },
-        onFlip: () => {
-          state.flippedCardId = state.flippedCardId === card.id ? null : card.id;
           render();
         },
         onCompare: () => {
@@ -394,10 +358,8 @@ export function renderExploreMode(root) {
           render();
         },
         isSelected: state.selectedCardId === card.id,
-        isFlipped: state.flippedCardId === card.id,
         isCompared: state.compareIds.includes(card.id),
         isVisited: visited.has(card.id),
-        interactionHint: touchMode ? "Tap again to open" : "Click again to open",
         highlight: null,
       }),
       { animate: !state.hasAnimatedGrid },
@@ -425,18 +387,32 @@ export function renderExploreMode(root) {
   }
 
   const handleKeydown = (e) => {
-    if (e.key === "Escape") {
-      if (state.flippedCardId) {
-        state.flippedCardId = null;
-        render();
-      } else if (state.selectedCardId) {
-        state.selectedCardId = null;
-        render();
-      }
+    if (e.key === "Escape" && state.selectedCardId) {
+      state.selectedCardId = null;
+      render();
     }
   };
   document.addEventListener("keydown", handleKeydown);
 
+  let lastScrollY = window.scrollY;
+  const handleScroll = () => {
+    const currentY = window.scrollY;
+    const delta = currentY - lastScrollY;
+    if (delta > 6) {
+      toolbar.classList.add("toolbar-hidden");
+    } else if (delta < -6) {
+      toolbar.classList.remove("toolbar-hidden");
+    }
+    lastScrollY = currentY;
+  };
+  window.addEventListener("scroll", handleScroll, { passive: true });
+
   render();
-  return () => document.removeEventListener("keydown", handleKeydown);
+  const unsubscribe = subscribeLanguage(() => render());
+
+  return () => {
+    unsubscribe();
+    document.removeEventListener("keydown", handleKeydown);
+    window.removeEventListener("scroll", handleScroll);
+  };
 }
