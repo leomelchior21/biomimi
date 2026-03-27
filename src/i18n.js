@@ -5,7 +5,7 @@ const translations = {
     // ── Navigation ──────────────────────────────────────────
     navWhat: "What is Biomimicry?",
     navExplore: "Explore Cards",
-    navMission: "Mission Generator",
+    navMission: "RANDOMIZER",
     navBattle: "Ecosystem Design Battle",
     langEnglish: "English",
     langPortuguese: "PT-BR",
@@ -70,7 +70,7 @@ const translations = {
     cardExplored: "Explored",
 
     // ── Mission Generator ─────────────────────────────────────
-    missionGenerator: "Mission Generator",
+    missionGenerator: "RANDOMIZER",
     missionHeroTitle: "Ask. Explore. Design.",
     missionHeroSupport: "Get a mission, study how nature solves it, and sketch your own idea.",
     missionCTA: "Give me my mission!",
@@ -243,7 +243,7 @@ const translations = {
     // ── Navigation ──────────────────────────────────────────
     navWhat: "O que é Biomimética?",
     navExplore: "Explorar Cartas",
-    navMission: "Gerador de Missões",
+    navMission: "RANDOMIZER",
     navBattle: "Batalha de Ecossistemas",
     langEnglish: "English",
     langPortuguese: "PT-BR",
@@ -308,7 +308,7 @@ const translations = {
     cardExplored: "Explorado",
 
     // ── Mission Generator ─────────────────────────────────────
-    missionGenerator: "Gerador de Missões",
+    missionGenerator: "RANDOMIZER",
     missionHeroTitle: "Pergunte. Explore. Crie.",
     missionHeroSupport: "Receba uma missão, veja como a natureza resolve isso e esboce sua própria ideia.",
     missionCTA: "Me dê minha missão!",
