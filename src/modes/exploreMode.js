@@ -1,7 +1,8 @@
-import { ORGANISMS, STAT_KEYS, STAT_LABELS, KINGDOM_COLORS } from "../data/organisms.js";
+import { ORGANISMS, KINGDOM_COLORS } from "../data/organisms.js";
 import { renderCardGrid } from "../components/cardGrid.js";
 import { renderCompareTray } from "../components/compareTray.js";
-import { shuffle, debounce } from "../utils.js";
+import { createPerformanceBars } from "../components/performanceBars.js";
+import { shuffle } from "../utils.js";
 import { t, subscribeLanguage } from "../i18n.js";
 
 function relatedCards(card) {
@@ -12,42 +13,6 @@ function createExpandedVisualMarkup(card) {
   return `
     <div class="detail-card-visual" style="background:${KINGDOM_COLORS[card.category]}">
       <img class="detail-card-photo" src="${card.imagePath}" alt="${card.name}" loading="lazy" decoding="async">
-    </div>
-  `;
-}
-
-function createPerformanceRings(card) {
-  const color = KINGDOM_COLORS[card.category];
-  const r = 36;
-  const cx = 50;
-  const cy = 50;
-  const circumference = Math.PI * r;
-
-  return `
-    <div class="perf-arc-grid">
-      ${STAT_KEYS.map((stat) => {
-        const value = card.stats[stat];
-        const offset = circumference * (1 - value / 100);
-        const arcPath = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
-        return `
-          <div class="perf-arc-card">
-            <svg class="perf-arc-svg" viewBox="0 0 100 62" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-              <path d="${arcPath}" fill="none" stroke="rgba(20,32,51,0.07)" stroke-width="9" stroke-linecap="round"/>
-              <path
-                class="perf-arc-fill"
-                d="${arcPath}"
-                fill="none"
-                stroke="${color}"
-                stroke-width="9"
-                stroke-linecap="round"
-                style="--arc-full:${circumference}; --arc-offset:${offset}; filter:drop-shadow(0 0 6px ${color}99)"
-              />
-              <text x="${cx}" y="${cy - 2}" text-anchor="middle" dominant-baseline="auto" font-size="19" font-weight="700" fill="#142033" font-family="IBM Plex Mono,monospace">${value}</text>
-            </svg>
-            <span class="perf-arc-label">${STAT_LABELS[stat]}</span>
-          </div>
-        `;
-      }).join("")}
     </div>
   `;
 }
@@ -69,8 +34,6 @@ export function renderExploreMode(root) {
     hasAnimatedGrid: false,
     selectedKingdom: null,
     compareIds: [],
-    search: "",
-    sort: "random",
   };
 
   root.innerHTML = `
@@ -139,27 +102,10 @@ export function renderExploreMode(root) {
   };
 
   function visibleCards() {
-    let cards = state.shuffledIds
+    return state.shuffledIds
       .map((id) => ORGANISMS.find((card) => card.id === id))
       .filter(Boolean)
       .filter((card) => !state.selectedKingdom || card.category === state.selectedKingdom);
-
-    if (state.search) {
-      const q = state.search.toLowerCase();
-      cards = cards.filter((card) =>
-        card.name.toLowerCase().includes(q) ||
-        card.principle.toLowerCase().includes(q) ||
-        card.tags.some((tag) => tag.toLowerCase().includes(q))
-      );
-    }
-
-    if (state.sort === "name") {
-      cards = [...cards].sort((a, b) => a.name.localeCompare(b.name));
-    } else if (state.sort !== "random") {
-      cards = [...cards].sort((a, b) => b.stats[state.sort] - a.stats[state.sort]);
-    }
-
-    return cards;
   }
 
   function renderDetail(cards) {
@@ -226,7 +172,7 @@ export function renderExploreMode(root) {
 
           <section class="detail-block detail-chart-block">
             <span class="meta-label">${t("detailPerformance")}</span>
-            ${createPerformanceRings(selected)}
+            ${createPerformanceBars(selected)}
           </section>
 
           ${related.length > 0 ? `
@@ -264,64 +210,16 @@ export function renderExploreMode(root) {
   function render() {
     const cards = visibleCards();
 
-    const visitedCount = [...visited].filter((id) => ORGANISMS.some((c) => c.id === id)).length;
-    const searchWasFocused = document.activeElement?.id === "explore-search";
-
     toolbar.innerHTML = `
-      <div class="explore-search-row">
-        <input
-          class="explore-search-input-field"
-          type="search"
-          id="explore-search"
-          placeholder="${t("explorePlaceholder")}"
-          value="${state.search.replace(/"/g, "&quot;")}"
-          autocomplete="off"
-        >
-        <select class="explore-sort-select" id="explore-sort">
-          <option value="random"${state.sort === "random" ? " selected" : ""}>${t("exploreSortRandom")}</option>
-          <option value="name"${state.sort === "name" ? " selected" : ""}>${t("exploreSortAlpha")}</option>
-          <option value="sustainability"${state.sort === "sustainability" ? " selected" : ""}>${t("exploreSortSustainability")}</option>
-          <option value="innovation"${state.sort === "innovation" ? " selected" : ""}>${t("exploreSortInnovation")}</option>
-          <option value="toughness"${state.sort === "toughness" ? " selected" : ""}>${t("exploreSortToughness")}</option>
-          <option value="adaptability"${state.sort === "adaptability" ? " selected" : ""}>${t("exploreSortAdaptability")}</option>
-        </select>
-      </div>
-      <div class="explore-chips-row">
-        <div class="explore-filter-chips">
-          <button class="filter-chip${!state.selectedKingdom ? " active" : ""}" data-kingdom="">${t("exploreFilterAll")} <span>${ORGANISMS.length}</span></button>
+      <div class="explore-banner-row">
+        <div class="explore-filter-chips" aria-label="${t("exploreFilterAll")}">
+          <button class="filter-chip${!state.selectedKingdom ? " active" : ""}" data-kingdom="">${t("exploreFilterAll")}</button>
           ${KINGDOMS.map((k) => `
             <button class="filter-chip${state.selectedKingdom === k ? " active" : ""}" data-kingdom="${k}">${KINGDOM_LABELS[k]()}</button>
           `).join("")}
         </div>
-        <span class="explore-count">${cards.length} of ${ORGANISMS.length}</span>
       </div>
-      ${visitedCount > 0 ? `
-        <div class="explore-visited-row">
-          <div class="explore-visited-track">
-            <div class="explore-visited-fill" style="width:${Math.round((visitedCount / ORGANISMS.length) * 100)}%"></div>
-          </div>
-          <span class="explore-visited-label">${visitedCount} / ${ORGANISMS.length} ${t("exploreExplored")}</span>
-        </div>
-      ` : ""}
     `;
-
-    if (searchWasFocused) {
-      const el = toolbar.querySelector("#explore-search");
-      if (el) { el.focus(); const l = el.value.length; el.setSelectionRange(l, l); }
-    }
-
-    toolbar.querySelector("#explore-search").addEventListener("input", debounce((e) => {
-      state.search = e.target.value;
-      state.hasAnimatedGrid = true;
-      state.selectedCardId = null;
-      render();
-    }, 150));
-
-    toolbar.querySelector("#explore-sort").addEventListener("change", (e) => {
-      state.sort = e.target.value;
-      state.hasAnimatedGrid = false;
-      render();
-    });
 
     toolbar.querySelectorAll("[data-kingdom]").forEach((btn) => {
       btn.addEventListener("click", () => {

@@ -1,5 +1,5 @@
 import { STAT_KEYS, STAT_LABELS } from "../data/organisms.js";
-import { renderRadarChart } from "./radarChart.js";
+import { createPerformanceBars } from "./performanceBars.js";
 import { t } from "../i18n.js";
 
 export function renderCompareTray(container, cards, { onRemove, onClear, onOpen }) {
@@ -28,7 +28,7 @@ export function renderCompareTray(container, cards, { onRemove, onClear, onOpen 
             </div>
             <button class="card-action-btn" type="button" data-compare-remove="${card.id}">${t("compareRemove")}</button>
           </div>
-          <canvas class="compare-radar" data-compare-radar="${card.id}"></canvas>
+          ${createPerformanceBars(card, { compact: true, className: "compare-performance-bars" })}
           <div class="compare-details">
             <div><span class="meta-label">${t("compareApplication")}</span><p>${card.architectureExample}</p></div>
             <div><span class="meta-label">${t("compareWhyMatters")}</span><p>${card.designTakeaway}</p></div>
@@ -53,11 +53,5 @@ export function renderCompareTray(container, cards, { onRemove, onClear, onOpen 
   });
   container.querySelectorAll("[data-compare-open]").forEach((button) => {
     button.addEventListener("click", () => onOpen(button.dataset.compareOpen));
-  });
-  container.querySelectorAll("[data-compare-radar]").forEach((canvas) => {
-    const card = cards.find((item) => item.id === canvas.dataset.compareRadar);
-    if (card) {
-      renderRadarChart(canvas, card);
-    }
   });
 }

@@ -1,6 +1,6 @@
-import { KINGDOM_COLORS, STAT_KEYS, STAT_LABELS } from "../data/organisms.js";
+import { KINGDOM_COLORS } from "../data/organisms.js";
 import { createCard } from "./card.js";
-import { renderRadarChart } from "./radarChart.js";
+import { createPerformanceBars } from "./performanceBars.js";
 
 let modalRoot = null;
 
@@ -41,19 +41,8 @@ export function openCardModal(card, { relatedCards = [], onSelectRelated } = {})
             <div class="modal-block"><h4>Design Takeaway</h4><p>${card.designTakeaway}</p></div>
             <div class="modal-block"><h4>Student Story</h4><p>${card.story}</p></div>
             <div class="modal-block">
-              <h4>Performance Radar</h4>
-              <div class="radar-wrap">
-                <canvas class="radar-canvas" id="radar-canvas"></canvas>
-                <div class="radar-meta">
-                  ${STAT_KEYS.map((stat) => `
-                    <div class="radar-meta-row">
-                      <span class="stat-label">${STAT_LABELS[stat]}</span>
-                      <span class="stat-value">${card.stats[stat]}</span>
-                      <div class="score-bar"><span style="width:${card.stats[stat]}%; background:${color};"></span></div>
-                    </div>
-                  `).join("")}
-                </div>
-              </div>
+              <h4>Performance Profile</h4>
+              ${createPerformanceBars(card)}
             </div>
             <div class="modal-block"><h4>Tags</h4><div class="tag-row">${card.tags.map((tag) => `<span class="tag-chip">${tag}</span>`).join("")}</div></div>
             <div class="modal-block"><h4>Related Cards</h4><div class="related-grid" id="related-grid"></div></div>
@@ -65,7 +54,6 @@ export function openCardModal(card, { relatedCards = [], onSelectRelated } = {})
 
   modalRoot.querySelector(".modal-close").addEventListener("click", closeModal);
   modalRoot.addEventListener("click", handleOverlayClick);
-  renderRadarChart(modalRoot.querySelector("#radar-canvas"), card);
 
   const relatedGrid = modalRoot.querySelector("#related-grid");
   relatedCards.slice(0, 4).forEach((related) => {

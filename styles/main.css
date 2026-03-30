@@ -720,49 +720,83 @@ a:focus-visible {
   border-radius: inherit;
   box-shadow: 0 0 18px color-mix(in srgb, currentColor 45%, white 20%);
 }
-/* Arc gauge — replaces old ring chart */
-.perf-arc-grid {
+.performance-bars {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+.performance-bars.is-compact {
+  grid-template-columns: 1fr;
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 0;
 }
-.perf-arc-card {
+.performance-bar-card {
   display: grid;
-  justify-items: center;
-  gap: 2px;
-  padding: 18px 8px 14px;
+  gap: 10px;
+  padding: 16px 16px 18px;
   border-radius: 18px;
-  background: linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
-  border: 1px solid rgba(255,255,255,0.26);
-  transition: background 200ms ease, box-shadow 200ms ease;
+  border: 1px solid color-mix(in srgb, var(--performance-accent) 20%, rgba(255,255,255,0.4));
+  background:
+    linear-gradient(180deg, color-mix(in srgb, var(--performance-accent) 7%, rgba(255,255,255,0.26)), rgba(255,255,255,0.12)),
+    radial-gradient(circle at top right, color-mix(in srgb, var(--performance-accent) 16%, transparent), transparent 42%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.52),
+    0 10px 20px color-mix(in srgb, var(--performance-accent) 10%, transparent);
 }
-.perf-arc-card:hover {
-  background: linear-gradient(180deg, rgba(255,255,255,0.38), rgba(255,255,255,0.16));
-  box-shadow: 0 8px 22px rgba(96,114,156,0.1);
-  transform: translateY(-2px);
+.performance-bars.is-compact .performance-bar-card {
+  padding: 12px 12px 14px;
+  border-radius: 16px;
 }
-.perf-arc-svg {
-  width: 100%;
-  max-width: 96px;
-  overflow: visible;
+.performance-bar-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
 }
-@keyframes arcDraw {
-  to { stroke-dashoffset: var(--arc-offset); }
-}
-.perf-arc-fill {
-  stroke-dasharray: var(--arc-full);
-  stroke-dashoffset: var(--arc-full);
-  animation: arcDraw 900ms cubic-bezier(0.22, 1, 0.36, 1) 80ms forwards;
-}
-.perf-arc-label {
-  font-size: 0.74rem;
-  font-family: var(--mono);
+.performance-bar-head span {
+  font-size: 0.76rem;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--muted);
-  text-align: center;
-  line-height: 1.3;
-  margin-top: 4px;
-  letter-spacing: 0.03em;
+}
+.performance-bar-head strong {
+  font-family: var(--mono);
+  font-size: 1.05rem;
+  line-height: 1;
+  color: color-mix(in srgb, var(--performance-accent) 68%, var(--text));
+}
+.performance-bar-track {
+  position: relative;
+  height: 18px;
+  border-radius: 999px;
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(20,32,51,0.12), rgba(20,32,51,0.05));
+  border: 1px solid rgba(255,255,255,0.32);
+  box-shadow: inset 0 2px 8px rgba(20,32,51,0.12);
+}
+.performance-bars.is-compact .performance-bar-track {
+  height: 15px;
+}
+.performance-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: inherit;
+  background:
+    linear-gradient(180deg,
+      color-mix(in srgb, var(--performance-accent) 72%, white 26%) 0%,
+      color-mix(in srgb, var(--performance-accent) 90%, white 8%) 55%,
+      color-mix(in srgb, var(--performance-accent) 80%, black 8%) 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.36),
+    0 0 18px color-mix(in srgb, var(--performance-accent) 28%, transparent);
+  animation: performanceFillIn 700ms cubic-bezier(0.22, 1, 0.36, 1) backwards;
+  animation-delay: var(--bar-delay, 0ms);
+}
+@keyframes performanceFillIn {
+  from { width: 0; }
 }
 .detail-related-list {
   display: grid;
@@ -1209,11 +1243,10 @@ a:focus-visible {
   position: sticky;
   top: 78px;
   z-index: 10;
-  display: grid;
-  gap: 10px;
-  padding: 14px 16px;
-  margin-bottom: 20px;
-  border-radius: 20px;
+  display: block;
+  padding: 8px 12px;
+  margin-bottom: 16px;
+  border-radius: 999px;
   border: 1px solid rgba(255,255,255,0.56);
   background: linear-gradient(180deg, rgba(234,240,255,0.97), rgba(234,240,255,0.88));
   backdrop-filter: blur(26px);
@@ -1225,77 +1258,10 @@ a:focus-visible {
   opacity: 0;
   pointer-events: none;
 }
-.explore-search-row {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-.explore-search-input-field {
-  flex: 1;
-  min-height: 42px;
-  padding: 9px 14px;
-  border: 1px solid rgba(255,255,255,0.52);
-  border-radius: 13px;
-  background: rgba(255,255,255,0.56);
-  font-family: var(--sans);
-  font-size: 0.9rem;
-  color: var(--text);
-  transition: border-color 180ms ease, box-shadow 180ms ease;
-}
-.explore-search-input-field:focus {
-  outline: none;
-  border-color: rgba(139,231,255,0.72);
-  box-shadow: 0 0 0 3px rgba(139,231,255,0.16);
-}
-.explore-search-input-field::placeholder { color: var(--subtle); }
-.explore-sort-select {
-  min-height: 42px;
-  min-width: 148px;
-  padding: 8px 12px;
-  border-radius: 13px;
-  border: 1px solid rgba(255,255,255,0.52);
-  background: rgba(255,255,255,0.56);
-  font-size: 0.86rem;
-  color: var(--text);
-  cursor: pointer;
-}
-.explore-chips-row {
+.explore-banner-row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-.explore-count {
-  font-family: var(--mono);
-  font-size: 0.78rem;
-  color: var(--muted);
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.explore-visited-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.explore-visited-track {
-  flex: 1;
-  height: 4px;
-  border-radius: 999px;
-  background: rgba(20,32,51,0.08);
-  overflow: hidden;
-}
-.explore-visited-fill {
-  height: 100%;
-  border-radius: inherit;
-  background: linear-gradient(90deg, #8ff0b8, #8be7ff);
-  transition: width 600ms var(--ease);
-}
-.explore-visited-label {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  white-space: nowrap;
+  min-width: 0;
 }
 
 /* Mission teaser (empty state) */
@@ -1535,18 +1501,26 @@ a:focus-visible {
 }
 .explore-filter-chips {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   gap: 8px;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.explore-filter-chips::-webkit-scrollbar {
+  display: none;
 }
 .filter-chip {
-  min-height: 34px;
-  padding: 6px 14px;
+  min-height: 30px;
+  padding: 5px 14px;
   border: 1px solid rgba(255,255,255,0.24);
   border-radius: 999px;
   background: rgba(255,255,255,0.14);
   color: var(--text);
   transition: transform 250ms ease, background 250ms ease, border-color 250ms ease;
-  font-size: 0.92rem;
+  font-size: 0.9rem;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 .filter-chip:hover,
 .filter-chip.active {
@@ -1554,12 +1528,6 @@ a:focus-visible {
   background: rgba(255,255,255,0.54);
   border-color: rgba(255,255,255,0.72);
   box-shadow: 0 6px 16px rgba(96,114,156,0.1), inset 0 1px 0 rgba(255,255,255,0.8);
-}
-.filter-chip span {
-  font-family: var(--mono);
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-left: 2px;
 }
 .explore-search-field {
   display: grid;
@@ -1658,8 +1626,8 @@ a:focus-visible {
   background: rgba(255,255,255,0.03);
 }
 .modal-block h4, .related-card h5 { margin: 0 0 10px; }
-.radar-wrap { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 18px; align-items: center; }
-.radar-canvas { width: min(50%, 140px); max-width: 100%; aspect-ratio: 1; margin: 0 auto; }
+.radar-wrap { display: block; }
+.radar-canvas { display: none; }
 .related-card {
   padding: 14px;
   border-radius: 18px;
@@ -1702,7 +1670,9 @@ a:focus-visible {
   gap: 12px;
   align-items: start;
 }
-.compare-radar { width: min(50%, 140px); max-width: 100%; aspect-ratio: 1; max-height: 125px; margin: 0 auto; }
+.compare-performance-bars {
+  margin-top: 2px;
+}
 .compare-details { display: grid; gap: 12px; }
 .compare-details p { margin: 4px 0 0; color: var(--muted); line-height: 1.55; }
 .compare-stat-list { display: grid; gap: 8px; }
@@ -3564,6 +3534,7 @@ a:focus-visible {
   .hero-panel, .glass-panel, .battle-stage, .room-card, .challenge-card, .scoreboard, .insight-panel, .modal-main, .explore-cinematic-hero { padding: 18px; }
   .hero-metrics, .card-grid, .result-reveal, .related-grid, .explore-kpis, .mission-brief-grid, .card-grid-compact, .detail-grid, .detail-related-mini-grid { grid-template-columns: 1fr; }
   .perf-arc-grid { grid-template-columns: repeat(2, 1fr); }
+  .performance-bars { grid-template-columns: 1fr; }
   .specimen-card { min-height: 288px; }
   .compare-tray-head, .mission-panel-head, .mission-selection-row, .mission-result-head { flex-direction: column; }
   .mission-hero-shell,
@@ -5093,8 +5064,13 @@ a.brand-lockup:hover h1 {
 .randomizer-boss-panel {
   padding: 28px;
   border-radius: 26px;
-  border: 1px solid rgba(255,255,255,0.12);
-  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.16);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.04)),
+    radial-gradient(circle at top right, rgba(255,255,255,0.04), transparent 30%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 18px 36px rgba(0,0,0,0.18);
   color: #fff;
 }
 
@@ -5103,12 +5079,19 @@ a.brand-lockup:hover h1 {
 .randomizer-output-shell-dark .randomizer-draft-note,
 .randomizer-output-shell-dark .randomizer-field span,
 .randomizer-boss-brief .randomizer-section-label {
-  color: rgba(255,255,255,0.46);
+  color: rgba(255,255,255,0.66);
+}
+
+.randomizer-output-shell-dark .randomizer-output-head h3,
+.randomizer-boss-brief h3,
+.randomizer-boss-panel h3 {
+  color: #f4f7ff;
+  text-shadow: 0 0 18px rgba(255,255,255,0.06);
 }
 
 .randomizer-boss-panel p,
 .randomizer-boss-brief p {
-  color: rgba(255,255,255,0.68);
+  color: rgba(255,255,255,0.82);
 }
 
 .randomizer-boss-organism {
@@ -5151,28 +5134,46 @@ a.brand-lockup:hover h1 {
   align-items: end;
   gap: 18px;
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.07), rgba(255,255,255,0.03)),
-    radial-gradient(circle at right, rgba(255, 59, 59, 0.12), transparent 28%);
+    linear-gradient(180deg, rgba(255,255,255,0.11), rgba(255,255,255,0.05)),
+    radial-gradient(circle at right, rgba(255, 59, 59, 0.14), transparent 28%);
+  border-color: rgba(255,255,255,0.18);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 20px 40px rgba(0,0,0,0.16);
 }
 
 .randomizer-output-shell-dark {
   background:
-    linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.03)),
-    radial-gradient(circle at top right, rgba(255, 59, 59, 0.08), transparent 32%);
-  border-color: rgba(255,255,255,0.12);
+    linear-gradient(180deg, rgba(255,255,255,0.09), rgba(255,255,255,0.04)),
+    radial-gradient(circle at top right, rgba(255, 59, 59, 0.1), transparent 32%);
+  border-color: rgba(255,255,255,0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 22px 42px rgba(0,0,0,0.18);
 }
 
 .randomizer-output-shell-dark .randomizer-field input,
 .randomizer-output-shell-dark .randomizer-field textarea {
-  background: rgba(255,255,255,0.06);
-  border-color: rgba(255,255,255,0.12);
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.18);
   color: #fff;
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.14),
+    0 10px 22px rgba(0,0,0,0.12);
 }
 
 .randomizer-output-shell-dark .randomizer-field input::placeholder,
 .randomizer-output-shell-dark .randomizer-field textarea::placeholder {
-  color: rgba(255,255,255,0.34);
+  color: rgba(255,255,255,0.5);
+}
+
+.randomizer-output-shell-dark .randomizer-field input:focus,
+.randomizer-output-shell-dark .randomizer-field textarea:focus {
+  outline: none;
+  border-color: rgba(139,231,255,0.42);
+  box-shadow:
+    0 0 0 3px rgba(139,231,255,0.1),
+    0 14px 28px rgba(0,0,0,0.18);
 }
 
 @keyframes randomizerFloat {
