@@ -1,13 +1,11 @@
 import { renderExploreMode } from "./modes/exploreMode.js";
 import { renderMissionGenerator } from "./modes/missionGenerator.js";
-import { renderEcosystemBattle } from "./modes/ecosystemBattle.js";
 import { renderWhatIsBiomimicry } from "./modes/whatIsBiomimicry.js";
 
 const routes = {
   what: renderWhatIsBiomimicry,
   explore: renderExploreMode,
   mission: renderMissionGenerator,
-  battle: renderEcosystemBattle,
 };
 
 export function createRouter({ root, navSelector }) {
