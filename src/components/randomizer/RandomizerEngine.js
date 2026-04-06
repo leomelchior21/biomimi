@@ -3,9 +3,24 @@ import { shuffle, escapeHtml } from "../../utils.js";
 import { createModeCard } from "./ModeCard.js";
 
 const MODES = [
-  { id: "simple", title: "Starter Mission" },
-  { id: "maker", title: "Maker Mission" },
-  { id: "boss", title: "Final Boss" },
+  {
+    id: "simple",
+    slug: "starter",
+    title: "Starter Mission",
+    prompt: "Open a first city challenge and let the class frame a clear design direction.",
+  },
+  {
+    id: "maker",
+    slug: "maker",
+    title: "Maker Mission",
+    prompt: "Generate a city systems challenge ready for deeper invention and prototyping.",
+  },
+  {
+    id: "boss",
+    slug: "final-boss",
+    title: "Final Boss",
+    prompt: "Sprout a high-pressure urban mission that needs a fast and resilient response.",
+  },
 ];
 
 function createDeck(modeId, excludeId = null) {
@@ -21,6 +36,19 @@ function createModeState(modeId) {
     isGenerating: false,
     timer: null,
   };
+}
+
+function createRandomizerState() {
+  return {
+    modes: Object.fromEntries(MODES.map((mode) => [mode.id, createModeState(mode.id)])),
+  };
+}
+
+const state = createRandomizerState();
+
+function getModeFromRoute(routeInfo) {
+  const segment = routeInfo?.segments?.[1] ?? null;
+  return MODES.find((mode) => mode.slug === segment || mode.id === segment) || null;
 }
 
 function renderSproutStage() {
@@ -41,9 +69,20 @@ function renderSproutStage() {
   `;
 }
 
+function renderEmptyState(mode) {
+  return `
+    <div class="randomizer-mode-empty">
+      <p class="randomizer-mode-empty-kicker">City mission generator</p>
+      <p class="randomizer-mode-empty-copy">${escapeHtml(mode.prompt)}</p>
+      <p class="randomizer-mode-empty-note">Every mission focuses on a real urban pressure such as housing, mobility, water, waste, energy, biodiversity, and public space.</p>
+    </div>
+  `;
+}
+
 function renderMission(mission) {
   return `
     <article class="randomizer-mission-shell" aria-live="polite">
+      <p class="randomizer-mission-area">${escapeHtml(mission.area)} city challenge</p>
       <p class="randomizer-mission-cta">${escapeHtml(mission.cta)}</p>
       <h3 class="randomizer-mission-problem">${escapeHtml(mission.problem)}</h3>
       <p class="randomizer-mission-brief">${escapeHtml(mission.brief)}</p>
@@ -57,12 +96,7 @@ function renderMission(mission) {
   `;
 }
 
-export function renderRandomizerEngine(root) {
-  const state = {
-    currentMode: null,
-    modes: Object.fromEntries(MODES.map((mode) => [mode.id, createModeState(mode.id)])),
-  };
-
+export function renderRandomizerEngine(root, routeInfo) {
   function clearTimer(modeState) {
     if (modeState.timer) {
       window.clearTimeout(modeState.timer);
@@ -84,13 +118,13 @@ export function renderRandomizerEngine(root) {
   }
 
   function openMode(modeId) {
-    state.currentMode = modeId;
-    render();
+    const mode = MODES.find((entry) => entry.id === modeId);
+    if (!mode) return;
+    window.location.hash = `#/mission/${mode.slug}`;
   }
 
   function goHome() {
-    state.currentMode = null;
-    render();
+    window.location.hash = "#/mission";
   }
 
   function generateMission(modeId) {
@@ -117,7 +151,7 @@ export function renderRandomizerEngine(root) {
           <div class="randomizer-hero-glow randomizer-hero-glow-b"></div>
           <p class="randomizer-hero-kicker">BioMimis</p>
           <h1>RANDOMIZER</h1>
-          <p class="randomizer-hero-subtitle">Pick a mode to open a city mission generator for your students.</p>
+          <p class="randomizer-hero-subtitle">Choose one mode card to open a city mission page for your students.</p>
         </section>
 
         <section class="randomizer-mode-grid" id="randomizer-mode-grid"></section>
@@ -132,6 +166,12 @@ export function renderRandomizerEngine(root) {
 
   function renderModeView(mode) {
     const modeState = state.modes[mode.id];
+    const bodyMarkup = modeState.isGenerating
+      ? renderSproutStage()
+      : modeState.mission
+        ? renderMission(modeState.mission)
+        : renderEmptyState(mode);
+
     root.innerHTML = `
       <section class="mode-page randomizer-page">
         <section class="randomizer-mode-screen randomizer-mode-screen-${mode.id}">
@@ -140,10 +180,10 @@ export function renderRandomizerEngine(root) {
             <h2>${escapeHtml(mode.title)}</h2>
           </div>
           <div class="randomizer-mode-screen-cta">
-            <button class="randomizer-generate-btn" type="button" data-action="generate" ${modeState.isGenerating ? "disabled" : ""}>Generate Mission</button>
+            <button class="randomizer-generate-btn" type="button" data-action="generate" ${modeState.isGenerating ? "disabled" : ""}>${modeState.isGenerating ? "Sprouting mission..." : "Generate Mission"}</button>
           </div>
           <div class="randomizer-mode-screen-body">
-            ${modeState.isGenerating ? renderSproutStage() : modeState.mission ? renderMission(modeState.mission) : ""}
+            ${bodyMarkup}
           </div>
         </section>
       </section>
@@ -154,13 +194,14 @@ export function renderRandomizerEngine(root) {
   }
 
   function render() {
-    if (!state.currentMode) {
+    const activeMode = getModeFromRoute(routeInfo);
+
+    if (!activeMode) {
       renderHome();
       return;
     }
 
-    const mode = MODES.find((entry) => entry.id === state.currentMode) || MODES[0];
-    renderModeView(mode);
+    renderModeView(activeMode);
   }
 
   render();

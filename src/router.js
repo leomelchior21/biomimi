@@ -12,6 +12,13 @@ export function createRouter({ root, navSelector }) {
   let cleanup = null;
   const navLinks = [...document.querySelectorAll(navSelector)];
 
+  function getRouteInfo() {
+    const path = window.location.hash.replace(/^#\//, "") || "explore";
+    const segments = path.split("/").filter(Boolean);
+    const route = segments[0] || "explore";
+    return { path, route, segments };
+  }
+
   function setActive(route) {
     navLinks.forEach((link) => {
       link.classList.toggle("active", link.dataset.routeLink === route);
@@ -19,16 +26,16 @@ export function createRouter({ root, navSelector }) {
   }
 
   function render() {
-    const route = window.location.hash.replace(/^#\//, "") || "explore";
-    const renderer = routes[route] || routes.explore;
+    const routeInfo = getRouteInfo();
+    const renderer = routes[routeInfo.route] || routes.explore;
 
     if (typeof cleanup === "function") {
       cleanup();
     }
 
     window.scrollTo({ top: 0, behavior: "instant" });
-    setActive(route in routes ? route : "explore");
-    cleanup = renderer(root);
+    setActive(routeInfo.route in routes ? routeInfo.route : "explore");
+    cleanup = renderer(root, routeInfo);
   }
 
   if (!window.location.hash) {

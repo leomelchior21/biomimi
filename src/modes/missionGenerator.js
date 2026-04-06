@@ -1,5 +1,5 @@
 import { renderRandomizerEngine } from "../components/randomizer/RandomizerEngine.js";
 
-export function renderMissionGenerator(root) {
-  return renderRandomizerEngine(root);
+export function renderMissionGenerator(root, routeInfo) {
+  return renderRandomizerEngine(root, routeInfo);
 }
