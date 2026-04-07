@@ -59,9 +59,22 @@ const CITY_CHALLENGES = [
     problem: "Unusable public squares during heat waves",
     brief: "A central city square empties out in summer because glare, heat, and dry air make it uncomfortable for staying, gathering, or waiting.",
   },
+  {
+    id: "air-school",
+    area: "Air",
+    problem: "Toxic air peaks at school entrances",
+    brief: "Children arrive at urban schools through corridors of vehicle exhaust, idling engines, and ground-level particulate that spikes during morning drop-off.",
+  },
+  {
+    id: "air-canyon",
+    area: "Air",
+    problem: "Trapped pollution in dense street canyons",
+    brief: "Tall buildings on both sides of narrow city streets block wind flow, allowing vehicle exhaust and heating emissions to concentrate at pedestrian height throughout the day.",
+  },
 ];
 
-const MISSION_LIMIT = 10;
+const MAKER_AREAS = new Set(["Energy", "Mobility", "Water", "Waste", "Biodiversity", "Air"]);
+const MAKER_CHALLENGES = CITY_CHALLENGES.filter((c) => MAKER_AREAS.has(c.area));
 
 function createMission(id, area, cta, problem, brief, questions) {
   return { id, area, cta, problem, brief, questions };
@@ -71,12 +84,12 @@ function createSimpleMission(challenge) {
   return createMission(
     `simple-${challenge.id}`,
     challenge.area,
-    "Starter Mission: identify the city pressure and frame a first biomimicry direction.",
+    "Open a city challenge, choose a BioMimi guide, and frame your first design direction.",
     challenge.problem,
     challenge.brief,
     [
       "What is the real urban pressure driving this city problem, and who feels it first?",
-      "What organism, ecosystem behavior, or natural principle could inspire a first response here?",
+      "How does your chosen BioMimi's strategy translate into a concrete response for this place?",
       "What small change would show that the place is working better for people and the city over time?",
     ],
   );
@@ -86,12 +99,12 @@ function createMakerMission(challenge) {
   return createMission(
     `maker-${challenge.id}`,
     challenge.area,
-    "Maker Mission: invent a city system that can transform this urban condition.",
+    "Design a city system that can transform this urban condition.",
     challenge.problem,
     challenge.brief,
     [
-      "What kind of city system would you design here, and how should it work beyond a single object or building?",
-      "How should flows like water, materials, movement, energy, ecology, or housing interact differently once your idea exists?",
+      "What kind of city system would you design here, and how should it work beyond a single object?",
+      `How should ${challenge.area.toLowerCase()} flows interact differently once your idea exists?`,
       "What would make your proposal feel realistic, teachable, and valuable in daily city life?",
     ],
   );
@@ -101,19 +114,19 @@ function createBossMission(challenge) {
   return createMission(
     `boss-${challenge.id}`,
     challenge.area,
-    "Final Boss: respond fast to a city problem that is already under pressure.",
+    "Respond fast to a city problem that is already under pressure.",
     challenge.problem,
     challenge.brief,
     [
       "What would you change first if the city needed an urgent but intelligent response right now?",
       "How could your intervention stay useful under tight limits of time, money, space, or infrastructure?",
-      "What risk or tradeoff would need the most careful design thinking as the mission scales across the city?",
+      "What risk or tradeoff would need the most careful design thinking as the mission scales?",
     ],
   );
 }
 
 export const RANDOMIZER_MISSION_POOLS = {
-  simple: CITY_CHALLENGES.slice(0, MISSION_LIMIT).map(createSimpleMission),
-  maker: CITY_CHALLENGES.slice(0, MISSION_LIMIT).map(createMakerMission),
-  boss: CITY_CHALLENGES.slice(0, MISSION_LIMIT).map(createBossMission),
+  simple: CITY_CHALLENGES.map(createSimpleMission),
+  maker: MAKER_CHALLENGES.map(createMakerMission),
+  boss: CITY_CHALLENGES.map(createBossMission),
 };
