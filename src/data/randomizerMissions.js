@@ -18,12 +18,6 @@ const CITY_CHALLENGES = [
     brief: "One of the city's main bus corridors is overloaded, leaving riders with unreliable travel times, stressful stops, and inefficient boarding.",
   },
   {
-    id: "cycling-safety",
-    area: "Mobility",
-    problem: "Unsafe everyday cycling routes",
-    brief: "A mixed-use district wants more cycling, but intersections, exposure to traffic, and weak shelter make the city route feel risky.",
-  },
-  {
     id: "transit-access",
     area: "Mobility",
     problem: "Transit interchanges that block accessibility",
@@ -36,52 +30,16 @@ const CITY_CHALLENGES = [
     brief: "A city neighborhood floods after intense rain because runoff moves too fast, drains are overwhelmed, and public space cannot recover quickly.",
   },
   {
-    id: "water-scarcity",
-    area: "Water",
-    problem: "Water scarcity in fast-growing districts",
-    brief: "A growing edge of the city faces irregular rainfall, high demand, and weak local storage, putting everyday water use under pressure.",
-  },
-  {
-    id: "stormwater-canal",
-    area: "Water",
-    problem: "An aging stormwater canal under pressure",
-    brief: "An old city canal edge can no longer slow, clean, and redistribute stormwater effectively as nearby neighborhoods become denser.",
-  },
-  {
     id: "market-waste",
     area: "Waste",
     problem: "Waste overload in market districts",
     brief: "A busy city market produces food scraps, packaging, and dirty runoff every day, but the district lacks a visible circular waste system.",
   },
   {
-    id: "food-logistics",
-    area: "Waste",
-    problem: "Food waste across downtown deliveries",
-    brief: "Restaurants, groceries, and delivery systems lose food through spoilage, bad timing, and disconnected storage across the city center.",
-  },
-  {
-    id: "ewaste-loop",
-    area: "Waste",
-    problem: "Electronic waste leaving the city unmanaged",
-    brief: "Phones, batteries, and small electronics move through the city without a clear repair, reuse, or safe recovery loop.",
-  },
-  {
     id: "energy-peaks",
     area: "Energy",
     problem: "Energy pressure in apartment towers",
     brief: "Clusters of city apartment towers hit sharp evening electricity peaks, stressing the grid and raising costs for residents.",
-  },
-  {
-    id: "housing-energy",
-    area: "Energy",
-    problem: "Weak renewable energy access in housing",
-    brief: "A housing district wants local power generation and storage, but rooftops, shared infrastructure, and use patterns are poorly coordinated.",
-  },
-  {
-    id: "cooling-demand",
-    area: "Energy",
-    problem: "Cooling demand is rising in civic buildings",
-    brief: "Schools, clinics, and other city facilities are using more and more energy for cooling because envelopes, shading, and ventilation perform poorly.",
   },
   {
     id: "biodiversity-gap",
@@ -96,30 +54,14 @@ const CITY_CHALLENGES = [
     brief: "A river running through the city has hard edges, poor water quality, and very little habitat for urban species or people.",
   },
   {
-    id: "tree-survival",
-    area: "Biodiversity",
-    problem: "Urban trees failing to survive",
-    brief: "New planting efforts keep failing because pavement, heat, compaction, and broken water cycles do not support long-term tree growth in the city.",
-  },
-  {
     id: "public-square-heat",
     area: "Public Space",
     problem: "Unusable public squares during heat waves",
     brief: "A central city square empties out in summer because glare, heat, and dry air make it uncomfortable for staying, gathering, or waiting.",
   },
-  {
-    id: "underpass-safety",
-    area: "Public Space",
-    problem: "Unsafe pedestrian underpasses at night",
-    brief: "A key city walking route feels exposed after dark because of poor orientation, weak comfort, and little sense of collective safety.",
-  },
-  {
-    id: "vendor-heat",
-    area: "Public Space",
-    problem: "Street vendors working in extreme heat",
-    brief: "Informal vendors need daily income, but the city streets where they work offer little shade, water, or microclimate protection.",
-  },
 ];
+
+const MISSION_LIMIT = 10;
 
 function createMission(id, area, cta, problem, brief, questions) {
   return { id, area, cta, problem, brief, questions };
@@ -171,7 +113,7 @@ function createBossMission(challenge) {
 }
 
 export const RANDOMIZER_MISSION_POOLS = {
-  simple: CITY_CHALLENGES.map(createSimpleMission),
-  maker: CITY_CHALLENGES.map(createMakerMission),
-  boss: CITY_CHALLENGES.map(createBossMission),
+  simple: CITY_CHALLENGES.slice(0, MISSION_LIMIT).map(createSimpleMission),
+  maker: CITY_CHALLENGES.slice(0, MISSION_LIMIT).map(createMakerMission),
+  boss: CITY_CHALLENGES.slice(0, MISSION_LIMIT).map(createBossMission),
 };

@@ -74,7 +74,7 @@ function renderEmptyState(mode) {
     <div class="randomizer-mode-empty">
       <p class="randomizer-mode-empty-kicker">City mission generator</p>
       <p class="randomizer-mode-empty-copy">${escapeHtml(mode.prompt)}</p>
-      <p class="randomizer-mode-empty-note">Every mission focuses on a real urban pressure such as housing, mobility, water, waste, energy, biodiversity, and public space.</p>
+      <p class="randomizer-mode-empty-note">Each mode has 10 city missions focused on urban pressures such as housing, mobility, water, waste, energy, biodiversity, and public space.</p>
     </div>
   `;
 }
@@ -120,6 +120,12 @@ export function renderRandomizerEngine(root, routeInfo) {
   function openMode(modeId) {
     const mode = MODES.find((entry) => entry.id === modeId);
     if (!mode) return;
+    const modeState = state.modes[modeId];
+    if (modeState) {
+      clearTimer(modeState);
+      modeState.mission = null;
+      modeState.isGenerating = false;
+    }
     window.location.hash = `#/mission/${mode.slug}`;
   }
 
@@ -166,6 +172,7 @@ export function renderRandomizerEngine(root, routeInfo) {
 
   function renderModeView(mode) {
     const modeState = state.modes[mode.id];
+    const shouldShowGenerateButton = !modeState.isGenerating && !modeState.mission;
     const bodyMarkup = modeState.isGenerating
       ? renderSproutStage()
       : modeState.mission
@@ -179,9 +186,11 @@ export function renderRandomizerEngine(root, routeInfo) {
           <div class="randomizer-mode-screen-head">
             <h2>${escapeHtml(mode.title)}</h2>
           </div>
-          <div class="randomizer-mode-screen-cta">
-            <button class="randomizer-generate-btn" type="button" data-action="generate" ${modeState.isGenerating ? "disabled" : ""}>${modeState.isGenerating ? "Sprouting mission..." : "Generate Mission"}</button>
-          </div>
+          ${shouldShowGenerateButton ? `
+            <div class="randomizer-mode-screen-cta">
+              <button class="randomizer-generate-btn" type="button" data-action="generate">Generate Mission</button>
+            </div>
+          ` : ""}
           <div class="randomizer-mode-screen-body">
             ${bodyMarkup}
           </div>
