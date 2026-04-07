@@ -3,9 +3,9 @@
   --panel: rgba(255, 255, 255, 0.26);
   --line: rgba(255, 255, 255, 0.38);
   --line-strong: rgba(255, 255, 255, 0.7);
-  --text: #142033;
-  --muted: #4c5a73;
-  --subtle: #6f7f9b;
+  --text: #0e1a2e;
+  --muted: #2f4460;
+  --subtle: #47607c;
   --animals: #ef4444;
   --plants: #22c55e;
   --microorganisms: #3b82f6;
@@ -4507,7 +4507,7 @@ a.brand-lockup:hover h1 {
   font-size: 0.74rem;
   letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: rgba(30, 40, 62, 0.48);
+  color: rgba(14, 26, 46, 0.62);
 }
 
 .randomizer-generate-btn {
@@ -4522,7 +4522,7 @@ a.brand-lockup:hover h1 {
     linear-gradient(135deg, rgba(122, 255, 198, 0.56), rgba(120, 162, 255, 0.46), rgba(255, 134, 208, 0.52));
   background-size: 100% 100%, 220% 220%;
   color: #0d1b2c;
-  font-size: 1.05rem;
+  font-size: 1.37rem;
   font-weight: 800;
   letter-spacing: 0.02em;
   text-shadow: 0 1px 0 rgba(255,255,255,0.36);
@@ -6257,7 +6257,7 @@ a.brand-lockup:hover h1 {
   margin: 0;
   font-size: 1rem;
   line-height: 1.7;
-  color: rgba(23, 25, 40, 0.7);
+  color: rgba(14, 22, 40, 0.84);
 }
 
 /* Organism picker */
@@ -6272,7 +6272,7 @@ a.brand-lockup:hover h1 {
   font-size: 0.74rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(20, 32, 51, 0.48);
+  color: rgba(14, 26, 46, 0.66);
   text-align: center;
 }
 
@@ -6343,7 +6343,7 @@ a.brand-lockup:hover h1 {
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(20, 32, 51, 0.46);
+  color: rgba(14, 26, 46, 0.62);
 }
 
 .randomizer-org-name {
@@ -6359,7 +6359,7 @@ a.brand-lockup:hover h1 {
   display: block;
   font-size: 0.82rem;
   line-height: 1.5;
-  color: rgba(20, 32, 51, 0.64);
+  color: rgba(14, 26, 46, 0.76);
 }
 
 /* Chosen organism + prompts */
@@ -6454,7 +6454,7 @@ a.brand-lockup:hover h1 {
   font-size: 0.66rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgba(20, 32, 51, 0.44);
+  color: rgba(14, 26, 46, 0.62);
 }
 
 .randomizer-starter-prompt h4 {
@@ -6470,7 +6470,7 @@ a.brand-lockup:hover h1 {
   margin: 0;
   font-size: 0.88rem;
   line-height: 1.65;
-  color: rgba(23, 25, 40, 0.7);
+  color: rgba(14, 22, 40, 0.84);
 }
 
 .randomizer-starter-actions {
@@ -6551,7 +6551,7 @@ a.brand-lockup:hover h1 {
   max-width: 60ch;
   font-size: 1.02rem;
   line-height: 1.72;
-  color: rgba(23, 25, 40, 0.68);
+  color: rgba(14, 22, 40, 0.82);
 }
 
 .randomizer-maker-panels-grid {
@@ -6611,7 +6611,7 @@ a.brand-lockup:hover h1 {
   font-size: 0.66rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: rgba(35, 28, 52, 0.42);
+  color: rgba(20, 14, 38, 0.62);
 }
 
 .randomizer-maker-panel h4 {
@@ -6627,7 +6627,7 @@ a.brand-lockup:hover h1 {
   margin: 0;
   font-size: 0.9rem;
   line-height: 1.66;
-  color: rgba(23, 25, 40, 0.7);
+  color: rgba(14, 22, 40, 0.84);
 }
 
 /* ── CARD ANIMATION KEYFRAMES ──────────────────────────────────────────────── */
