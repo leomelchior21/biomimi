@@ -79,18 +79,64 @@ function renderEmptyState(mode) {
   `;
 }
 
-function renderMission(mission) {
+function renderMission(mission, mode) {
+  const prompts = [
+    {
+      kicker: "Pressure map",
+      title: "Read the city first",
+      body: mission.questions[0] || "What is the real pressure shaping this place right now?",
+      feature: true,
+    },
+    {
+      kicker: "Nature clue",
+      title: "Borrow a strategy",
+      body: mission.questions[1] || "What natural strategy could help this place perform better?",
+      feature: false,
+    },
+    {
+      kicker: "Prototype test",
+      title: "Push the idea",
+      body: mission.questions[2] || "What would prove the intervention is working over time?",
+      feature: false,
+    },
+  ];
+
   return `
-    <article class="randomizer-mission-shell" aria-live="polite">
-      <p class="randomizer-mission-area">${escapeHtml(mission.area)} city challenge</p>
-      <p class="randomizer-mission-cta">${escapeHtml(mission.cta)}</p>
-      <h3 class="randomizer-mission-problem">${escapeHtml(mission.problem)}</h3>
-      <p class="randomizer-mission-brief">${escapeHtml(mission.brief)}</p>
-      <div class="randomizer-mission-questions">
-        <p>Guiding questions</p>
-        <ol>
-          ${mission.questions.map((question) => `<li>${escapeHtml(question)}</li>`).join("")}
-        </ol>
+    <article class="randomizer-mission-shell randomizer-mission-shell-${escapeHtml(mode.id)}" aria-live="polite">
+      <div class="randomizer-mission-top">
+        <div class="randomizer-mission-intro">
+          <p class="randomizer-mission-area">${escapeHtml(mission.area)} city challenge</p>
+          <h3 class="randomizer-mission-problem">${escapeHtml(mission.problem)}</h3>
+          <div class="randomizer-mission-actions">
+            <button class="randomizer-mission-regenerate" type="button" data-action="generate">Generate another mission</button>
+            <span class="randomizer-mission-mode-pill">${escapeHtml(mode.title)}</span>
+          </div>
+        </div>
+        <div class="randomizer-mission-summary">
+          <p class="randomizer-mission-cta">${escapeHtml(mission.cta)}</p>
+          <p class="randomizer-mission-brief">${escapeHtml(mission.brief)}</p>
+        </div>
+      </div>
+      <div class="randomizer-mission-grid">
+        ${prompts.map((prompt, index) => `
+          <article class="randomizer-mission-panel ${prompt.feature ? "randomizer-mission-panel-feature" : "randomizer-mission-panel-dark"}">
+            <div class="randomizer-mission-panel-copy">
+              <p class="randomizer-mission-panel-kicker">${escapeHtml(prompt.kicker)}</p>
+              <h4>${escapeHtml(prompt.title)}</h4>
+              <p>${escapeHtml(prompt.body)}</p>
+            </div>
+            ${index === 0 ? `
+              <div class="randomizer-mission-bloom" aria-hidden="true">
+                <span class="randomizer-mission-bloom-orb"></span>
+                <span class="randomizer-mission-bloom-stem"></span>
+                <span class="randomizer-mission-bloom-core"></span>
+                <span class="randomizer-mission-bloom-petal randomizer-mission-bloom-petal-a"></span>
+                <span class="randomizer-mission-bloom-petal randomizer-mission-bloom-petal-b"></span>
+                <span class="randomizer-mission-bloom-petal randomizer-mission-bloom-petal-c"></span>
+              </div>
+            ` : ""}
+          </article>
+        `).join("")}
       </div>
     </article>
   `;
@@ -176,7 +222,7 @@ export function renderRandomizerEngine(root, routeInfo) {
     const bodyMarkup = modeState.isGenerating
       ? renderSproutStage()
       : modeState.mission
-        ? renderMission(modeState.mission)
+        ? renderMission(modeState.mission, mode)
         : renderEmptyState(mode);
 
     root.innerHTML = `
