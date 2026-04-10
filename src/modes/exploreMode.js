@@ -1,4 +1,4 @@
-import { ORGANISMS, KINGDOM_COLORS } from "../data/organisms.js";
+import { ORGANISMS, KINGDOM_COLORS, TECHNOLOGY_LABELS, PROBLEM_LABELS } from "../data/organisms.js";
 import { renderCardGrid } from "../components/cardGrid.js";
 import { renderCompareTray } from "../components/compareTray.js";
 import { createPerformanceBars } from "../components/performanceBars.js";
@@ -32,7 +32,9 @@ export function renderExploreMode(root) {
     selectedCardId: null,
     shuffledIds: shuffledCards.map((card) => card.id),
     hasAnimatedGrid: false,
-    selectedKingdom: null,
+    filterKingdom: "all",
+    filterTechnology: "all",
+    filterProblem: "all",
     compareIds: [],
   };
 
@@ -93,19 +95,27 @@ export function renderExploreMode(root) {
     }
   });
 
-  const KINGDOMS = ["Animals", "Plants", "Microorganisms", "Systems"];
+  const KINGDOMS = ["all", "Animals", "Plants", "Microorganisms", "Systems"];
   const KINGDOM_LABELS = {
+    all: () => t("exploreFilterAll"),
     Animals: () => t("kingdomAnimals"),
     Plants: () => t("kingdomPlants"),
     Microorganisms: () => t("kingdomMicroorganisms"),
     Systems: () => t("kingdomSystems"),
   };
 
+  // Collect all unique problems from cards
+  const allProblems = [...new Set(ORGANISMS.flatMap((card) => card.problems))].sort();
+
   function visibleCards() {
-    return state.shuffledIds
+    const results = state.shuffledIds
       .map((id) => ORGANISMS.find((card) => card.id === id))
       .filter(Boolean)
-      .filter((card) => !state.selectedKingdom || card.category === state.selectedKingdom);
+      .filter((card) => state.filterKingdom === "all" || card.category === state.filterKingdom)
+      .filter((card) => state.filterTechnology === "all" || card.technology === state.filterTechnology)
+      .filter((card) => state.filterProblem === "all" || (card.problems && card.problems.includes(state.filterProblem)));
+
+    return results;
   }
 
   function renderDetail(cards) {
@@ -209,25 +219,53 @@ export function renderExploreMode(root) {
 
   function render() {
     const cards = visibleCards();
+    const detailOpen = !!state.selectedCardId;
+
+    toolbar.classList.toggle("toolbar-compact", detailOpen);
+    toolbar.classList.toggle("toolbar-expanded", !detailOpen);
 
     toolbar.innerHTML = `
-      <div class="explore-banner-row">
-        <div class="explore-filter-chips" aria-label="${t("exploreFilterAll")}">
-          <button class="filter-chip${!state.selectedKingdom ? " active" : ""}" data-kingdom="">${t("exploreFilterAll")}</button>
-          ${KINGDOMS.map((k) => `
-            <button class="filter-chip${state.selectedKingdom === k ? " active" : ""}" data-kingdom="${k}">${KINGDOM_LABELS[k]()}</button>
-          `).join("")}
-        </div>
+      <div class="explore-toolbar-filters">
+        <select class="filter-select" id="filter-kingdom" aria-label="Filter by kingdom">
+          ${KINGDOMS.map((k) => `<option value="${k}"${state.filterKingdom === k ? " selected" : ""}>${KINGDOM_LABELS[k]()}</option>`).join("")}
+        </select>
+        <select class="filter-select" id="filter-technology" aria-label="Filter by technology">
+          <option value="all">All Technologies</option>
+          ${Object.entries(TECHNOLOGY_LABELS).map(([key, label]) => `<option value="${key}"${state.filterTechnology === key ? " selected" : ""}>${label}</option>`).join("")}
+        </select>
+        <select class="filter-select" id="filter-problem" aria-label="Filter by problem solved">
+          <option value="all">All Problems</option>
+          ${allProblems.map((p) => `<option value="${p}"${state.filterProblem === p ? " selected" : ""}>${PROBLEM_LABELS[p]}</option>`).join("")}
+        </select>
+        <button class="btn-ghost filter-reset" id="filter-reset" type="button">Reset Filters</button>
       </div>
     `;
 
-    toolbar.querySelectorAll("[data-kingdom]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        state.selectedKingdom = btn.dataset.kingdom || null;
-        state.selectedCardId = null;
-        state.hasAnimatedGrid = false;
-        render();
-      });
+    toolbar.querySelector("#filter-kingdom").addEventListener("change", (e) => {
+      state.filterKingdom = e.target.value;
+      state.selectedCardId = null;
+      state.hasAnimatedGrid = false;
+      render();
+    });
+    toolbar.querySelector("#filter-technology").addEventListener("change", (e) => {
+      state.filterTechnology = e.target.value;
+      state.selectedCardId = null;
+      state.hasAnimatedGrid = false;
+      render();
+    });
+    toolbar.querySelector("#filter-problem").addEventListener("change", (e) => {
+      state.filterProblem = e.target.value;
+      state.selectedCardId = null;
+      state.hasAnimatedGrid = false;
+      render();
+    });
+    toolbar.querySelector("#filter-reset").addEventListener("click", () => {
+      state.filterKingdom = "all";
+      state.filterTechnology = "all";
+      state.filterProblem = "all";
+      state.selectedCardId = null;
+      state.hasAnimatedGrid = false;
+      render();
     });
 
     renderDetail(cards);
@@ -293,19 +331,28 @@ export function renderExploreMode(root) {
   document.addEventListener("keydown", handleKeydown);
 
   let lastScrollY = window.scrollY;
+  let scrollAccumulator = 0;
+  const SCROLL_THRESHOLD = 12;
   const handleScroll = () => {
+    if (state.selectedCardId) return;
     const currentY = window.scrollY;
     const delta = currentY - lastScrollY;
-    if (delta > 6) {
-      toolbar.classList.add("toolbar-hidden");
-    } else if (delta < -6) {
-      toolbar.classList.remove("toolbar-hidden");
+    scrollAccumulator += delta;
+    if (scrollAccumulator > SCROLL_THRESHOLD) {
+      toolbar.classList.add("toolbar-compact");
+      toolbar.classList.remove("toolbar-expanded");
+      scrollAccumulator = 0;
+    } else if (scrollAccumulator < -SCROLL_THRESHOLD) {
+      toolbar.classList.remove("toolbar-compact");
+      toolbar.classList.add("toolbar-expanded");
+      scrollAccumulator = 0;
     }
     lastScrollY = currentY;
   };
   window.addEventListener("scroll", handleScroll, { passive: true });
 
   render();
+  toolbar.classList.add("toolbar-expanded");
   const unsubscribe = subscribeLanguage(() => render());
 
   return () => {
