@@ -6952,3 +6952,1843 @@ a.brand-lockup:hover h1 {
     padding: 18px;
   }
 }
+
+/* RANDOMIZER REDESIGN */
+.randomizer-page,
+.randomizer-page * {
+  letter-spacing: 0 !important;
+}
+
+.randomizer-page {
+  color: #17201c;
+}
+
+.randomizer-page button,
+.randomizer-page a,
+.randomizer-page article,
+.randomizer-page section,
+.randomizer-page div,
+.randomizer-page img {
+  border-radius: 8px !important;
+}
+
+.randomizer-hero {
+  padding: 48px 32px 34px;
+  border: 2px solid #17201c;
+  background: #f7faf6;
+  box-shadow: 10px 10px 0 #17201c;
+  text-align: left;
+}
+
+.randomizer-hero-kicker,
+.randomizer-section-label,
+.randomizer-card-kicker,
+.randomizer-mode-badge,
+.randomizer-mode-square-badge {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #3b6f56;
+}
+
+.randomizer-hero h1 {
+  margin: 10px 0 8px;
+  font-family: var(--serif);
+  font-size: 4.6rem;
+  line-height: 0.96;
+  color: #17201c;
+  letter-spacing: 0 !important;
+}
+
+.randomizer-hero-subtitle {
+  max-width: 42rem;
+  margin: 0;
+  color: #3f4d47;
+  font-size: 1.18rem;
+  line-height: 1.45;
+}
+
+.randomizer-mode-grid {
+  max-width: 1120px;
+  gap: 18px;
+}
+
+.randomizer-mode-card {
+  min-height: 280px;
+  aspect-ratio: auto;
+  padding: 22px;
+  border: 2px solid #17201c;
+  background: #ffffff;
+  box-shadow: 8px 8px 0 #17201c;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.randomizer-mode-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 11px 11px 0 #17201c;
+}
+
+.randomizer-mode-square-border,
+.randomizer-mode-square-glow,
+.randomizer-mode-square-surface {
+  display: none;
+}
+
+.randomizer-mode-square-copy {
+  justify-items: start;
+  text-align: left;
+  gap: 14px;
+}
+
+.randomizer-mode-square-title {
+  font-family: var(--serif);
+  font-size: 2.2rem;
+  line-height: 1;
+  color: #17201c;
+  letter-spacing: 0 !important;
+}
+
+.randomizer-mode-square-tagline {
+  font-size: 1rem;
+  line-height: 1.45;
+  color: #3f4d47;
+}
+
+.randomizer-mode-simple {
+  background: #e6f6ed;
+}
+
+.randomizer-mode-maker {
+  background: #fff2c7;
+}
+
+.randomizer-mode-boss {
+  background: #ffd9d0;
+}
+
+.randomizer-mode-screen {
+  min-height: 72vh;
+  padding: 24px;
+  border: 2px solid #17201c;
+  background: #f7faf6;
+  box-shadow: 10px 10px 0 #17201c;
+  backdrop-filter: none;
+}
+
+.randomizer-mode-screen-simple,
+.randomizer-mode-screen-maker,
+.randomizer-mode-screen-boss {
+  background: #f7faf6;
+}
+
+.randomizer-mode-screen-boss.is-boss-loading {
+  background: #171717;
+  border-color: #171717;
+  box-shadow: 10px 10px 0 #f05d4f;
+}
+
+.randomizer-mode-screen-topbar {
+  justify-content: flex-start;
+}
+
+.randomizer-back-btn,
+.randomizer-mission-regenerate,
+.randomizer-library-link,
+.randomizer-generate-btn {
+  border: 2px solid #17201c !important;
+  box-shadow: 4px 4px 0 #17201c !important;
+  text-decoration: none;
+}
+
+.randomizer-back-btn {
+  background: #ffffff !important;
+  color: #17201c !important;
+}
+
+.randomizer-mode-launch {
+  display: grid;
+  justify-items: center;
+  align-content: center;
+  gap: 16px;
+  min-height: 48vh;
+  text-align: center;
+}
+
+.randomizer-mode-launch h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 4rem;
+  line-height: 1;
+  color: #17201c;
+}
+
+.randomizer-mode-launch p {
+  margin: 0;
+  color: #3f4d47;
+  font-size: 1.16rem;
+}
+
+.randomizer-generate-btn {
+  width: min(420px, 100%);
+  min-height: 64px;
+  border-radius: 8px !important;
+  background: #8de4af;
+  color: #17201c;
+  font-size: 1.15rem;
+  font-weight: 800;
+  animation: none;
+  text-shadow: none;
+}
+
+.randomizer-generate-btn::before,
+.randomizer-generate-btn::after {
+  display: none;
+}
+
+.randomizer-mode-screen-body {
+  width: min(1180px, 100%);
+  margin: 0 auto;
+}
+
+.randomizer-loading-stage {
+  display: grid;
+  place-items: center;
+  gap: 18px;
+  min-height: 360px;
+  text-align: center;
+}
+
+.randomizer-loading-stage p {
+  margin: 0;
+  font-family: var(--mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #17201c;
+}
+
+.randomizer-loading-mark {
+  display: grid;
+  grid-template-columns: repeat(3, 54px);
+  gap: 12px;
+}
+
+.randomizer-loading-mark span {
+  display: block;
+  aspect-ratio: 1;
+  border: 2px solid #17201c;
+  background: #8de4af;
+  animation: randomizerBlockBounce 850ms ease-in-out infinite;
+}
+
+.randomizer-loading-mark span:nth-child(2) {
+  background: #ffd166;
+  animation-delay: 120ms;
+}
+
+.randomizer-loading-mark span:nth-child(3) {
+  background: #f05d4f;
+  animation-delay: 240ms;
+}
+
+.randomizer-dashboard {
+  display: grid;
+  gap: 20px;
+}
+
+.randomizer-dashboard-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 18px;
+  align-items: end;
+  padding: 22px;
+  border: 2px solid #17201c;
+  background: #ffffff;
+  box-shadow: 6px 6px 0 #17201c;
+}
+
+.randomizer-dashboard-header h2 {
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: 3.35rem;
+  line-height: 1;
+  color: #17201c;
+}
+
+.randomizer-dashboard-header p {
+  margin: 0;
+  max-width: 16rem;
+  color: #3f4d47;
+  font-weight: 800;
+  font-size: 1rem;
+  text-align: right;
+}
+
+.randomizer-mode-badge,
+.randomizer-mode-square-badge {
+  display: inline-flex;
+  align-items: center;
+  min-height: 30px;
+  width: max-content;
+  padding: 0 10px;
+  border: 2px solid currentColor;
+  background: #ffffff;
+}
+
+.randomizer-mission-board {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: 18px;
+  align-items: stretch;
+}
+
+.randomizer-challenge-card {
+  position: relative;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  min-height: 320px;
+  padding: 24px;
+  border: 2px solid #17201c;
+  background: #ffffff;
+  box-shadow: 6px 6px 0 #17201c;
+}
+
+.randomizer-problem-card {
+  background: #e6f6ed;
+}
+
+.randomizer-problem-card::after {
+  content: "";
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: 92px;
+  height: 92px;
+  border: 8px solid #17201c;
+  border-top-width: 20px;
+  background:
+    linear-gradient(90deg, transparent 46%, #17201c 46% 54%, transparent 54%),
+    linear-gradient(0deg, transparent 46%, #17201c 46% 54%, transparent 54%),
+    #8de4af;
+  opacity: 0.16;
+}
+
+.randomizer-challenge-card h3 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 2.35rem;
+  line-height: 1.02;
+  color: #17201c;
+}
+
+.randomizer-challenge-card p {
+  margin: 0;
+  max-width: 34rem;
+  color: #2c3732;
+  font-size: 1.08rem;
+  line-height: 1.45;
+}
+
+.randomizer-choice-panel {
+  background: #fffdf4;
+}
+
+.randomizer-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.randomizer-biomimi-card {
+  position: relative;
+  overflow: hidden;
+  min-height: 286px;
+  padding: 0;
+  border: 2px solid #17201c;
+  background: #ffffff;
+  color: #17201c;
+  text-align: left;
+  box-shadow: 4px 4px 0 #17201c;
+  cursor: default;
+  transition: transform 180ms ease, box-shadow 180ms ease, opacity 180ms ease;
+}
+
+button.randomizer-biomimi-card {
+  cursor: pointer;
+}
+
+button.randomizer-biomimi-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 6px 6px 0 #17201c;
+}
+
+.randomizer-biomimi-card.is-selected {
+  outline: 5px solid var(--org-accent);
+  outline-offset: -7px;
+}
+
+.randomizer-biomimi-card.is-muted {
+  opacity: 0.58;
+}
+
+.randomizer-biomimi-card.is-forced {
+  min-height: 360px;
+  background: #171717;
+  color: #ffffff;
+  box-shadow: 6px 6px 0 #f05d4f;
+}
+
+.randomizer-biomimi-image {
+  height: 158px;
+  overflow: hidden;
+}
+
+.randomizer-biomimi-card.is-forced .randomizer-biomimi-image {
+  height: 230px;
+}
+
+.randomizer-biomimi-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.randomizer-biomimi-copy {
+  display: grid;
+  gap: 6px;
+  padding: 14px;
+}
+
+.randomizer-biomimi-copy p {
+  margin: 0;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--org-accent);
+}
+
+.randomizer-biomimi-card.is-forced .randomizer-biomimi-copy p {
+  color: #ffd166;
+}
+
+.randomizer-biomimi-copy strong {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.38rem;
+  line-height: 1;
+  color: currentColor;
+}
+
+.randomizer-biomimi-copy span {
+  display: block;
+  color: currentColor;
+  font-size: 0.88rem;
+  line-height: 1.35;
+  opacity: 0.82;
+}
+
+.randomizer-library-panel {
+  align-content: center;
+  justify-items: start;
+  background: #fff2c7;
+}
+
+.randomizer-library-panel h3 {
+  font-size: 2.65rem;
+}
+
+.randomizer-library-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 54px;
+  padding: 0 18px;
+  background: #ffd166;
+  color: #17201c;
+  font-weight: 900;
+}
+
+.randomizer-forced-panel {
+  background: #ffd9d0;
+}
+
+.randomizer-boss-command {
+  display: block;
+  width: max-content;
+  max-width: 100%;
+  padding: 10px 12px;
+  border: 2px solid #17201c;
+  background: #f05d4f;
+  color: #ffffff;
+  font-size: 1rem;
+  text-transform: uppercase;
+}
+
+.randomizer-sketchbook-strip {
+  display: grid;
+  gap: 14px;
+  padding: 18px;
+  border: 2px solid #17201c;
+  background: #ffffff;
+  box-shadow: 6px 6px 0 #17201c;
+}
+
+.randomizer-sketchbook-strip.is-locked {
+  background: #eef2ef;
+}
+
+.randomizer-sketchbook-lock {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 14px;
+  align-items: center;
+  justify-content: center;
+  min-height: 74px;
+  color: #3f4d47;
+}
+
+.randomizer-sketchbook-lock strong {
+  color: #17201c;
+  font-size: 1.1rem;
+}
+
+.randomizer-sketchbook-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.randomizer-sketchbook-note span {
+  font-family: var(--mono);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: #3b6f56;
+}
+
+.randomizer-sketchbook-note strong {
+  color: #17201c;
+  font-size: 1rem;
+}
+
+.randomizer-step-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.randomizer-step-card {
+  display: grid;
+  gap: 8px;
+  min-height: 230px;
+  padding: 16px;
+  border: 2px solid #17201c;
+  background: #f7faf6;
+}
+
+.randomizer-step-problem {
+  background: #e6f6ed;
+}
+
+.randomizer-step-nature {
+  background: #dff3ff;
+}
+
+.randomizer-step-idea {
+  background: #fff2c7;
+}
+
+.randomizer-step-urban-solution {
+  background: #ffd9d0;
+}
+
+.randomizer-step-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.randomizer-step-number {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: 2px solid #17201c;
+  background: #ffffff;
+  font-family: var(--mono);
+  font-weight: 900;
+}
+
+.randomizer-step-icon {
+  position: relative;
+  width: 44px;
+  height: 34px;
+  border: 2px solid #17201c;
+  background: #ffffff;
+}
+
+.randomizer-step-nature .randomizer-step-icon {
+  border-radius: 50% 50% 8px 8px !important;
+  background: #8de4af;
+}
+
+.randomizer-step-idea .randomizer-step-icon {
+  transform: rotate(45deg);
+  background: #ffd166;
+}
+
+.randomizer-step-urban-solution .randomizer-step-icon {
+  background:
+    linear-gradient(90deg, transparent 30%, #17201c 30% 38%, transparent 38% 62%, #17201c 62% 70%, transparent 70%),
+    #ffffff;
+}
+
+.randomizer-step-card h4 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1;
+  color: #17201c;
+}
+
+.randomizer-step-card p {
+  margin: 0;
+  color: #2c3732;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.randomizer-step-card ul {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.randomizer-step-card li {
+  position: relative;
+  padding-left: 16px;
+  color: #3f4d47;
+  font-size: 0.92rem;
+  line-height: 1.25;
+}
+
+.randomizer-step-card li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.52em;
+  width: 7px;
+  height: 7px;
+  background: #17201c;
+}
+
+.randomizer-dashboard-actions {
+  display: flex;
+  justify-content: center;
+}
+
+.randomizer-mission-regenerate {
+  min-height: 50px;
+  padding: 0 18px;
+  background: #ffffff;
+  color: #17201c;
+  font-weight: 900;
+}
+
+.randomizer-boss-warning-title {
+  font-size: 4rem;
+  letter-spacing: 0 !important;
+}
+
+@keyframes randomizerBlockBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@media (max-width: 980px) {
+  .randomizer-hero h1,
+  .randomizer-mode-launch h2 {
+    font-size: 3.2rem;
+  }
+
+  .randomizer-dashboard-header,
+  .randomizer-mission-board,
+  .randomizer-step-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .randomizer-dashboard-header p {
+    max-width: none;
+    text-align: left;
+  }
+
+  .randomizer-choice-grid {
+    grid-template-columns: repeat(3, minmax(160px, 1fr));
+    overflow-x: auto;
+    padding-bottom: 8px;
+  }
+
+  .randomizer-step-card {
+    min-height: 0;
+  }
+}
+
+@media (max-width: 760px) {
+  .randomizer-hero,
+  .randomizer-mode-screen {
+    padding: 18px;
+    box-shadow: 6px 6px 0 #17201c;
+  }
+
+  .randomizer-hero h1,
+  .randomizer-dashboard-header h2,
+  .randomizer-mode-launch h2 {
+    font-size: 2.55rem;
+  }
+
+  .randomizer-mode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .randomizer-mode-card {
+    min-height: 220px;
+  }
+
+  .randomizer-choice-grid {
+    grid-template-columns: 1fr;
+    overflow-x: visible;
+  }
+
+  .randomizer-dashboard-header,
+  .randomizer-challenge-card,
+  .randomizer-sketchbook-strip {
+    padding: 16px;
+    box-shadow: 4px 4px 0 #17201c;
+  }
+
+  .randomizer-challenge-card {
+    min-height: 0;
+  }
+
+  .randomizer-problem-card::after {
+    display: none;
+  }
+
+  .randomizer-biomimi-card,
+  .randomizer-biomimi-card.is-forced {
+    min-height: 0;
+  }
+
+  .randomizer-biomimi-card.is-forced .randomizer-biomimi-image,
+  .randomizer-biomimi-image {
+    height: 180px;
+  }
+}
+
+/* RANDOMIZER SITE-ALIGNED REFINEMENT */
+.randomizer-page,
+.randomizer-page * {
+  letter-spacing: normal !important;
+}
+
+.randomizer-page button,
+.randomizer-page a,
+.randomizer-page article,
+.randomizer-page section,
+.randomizer-page div,
+.randomizer-page img {
+  border-radius: revert-layer !important;
+}
+
+.randomizer-page {
+  gap: 24px;
+}
+
+.randomizer-page .randomizer-hero {
+  overflow: hidden;
+  padding: 64px 48px 38px;
+  border-radius: 34px !important;
+  border: 1px solid rgba(255,255,255,0.34);
+  background:
+    radial-gradient(circle at 16% 18%, rgba(128, 244, 198, 0.18), transparent 24%),
+    radial-gradient(circle at 82% 28%, rgba(255, 125, 180, 0.14), transparent 22%),
+    radial-gradient(circle at 50% 110%, rgba(112, 175, 255, 0.18), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.14));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 36px 80px rgba(74, 91, 132, 0.16);
+  backdrop-filter: blur(26px);
+  text-align: center;
+}
+
+.randomizer-page .randomizer-hero h1 {
+  margin: 12px 0 10px;
+  font-family: var(--serif);
+  font-size: clamp(3.3rem, 8vw, 6.4rem);
+  line-height: 0.92;
+  color: #102034;
+  text-wrap: balance;
+}
+
+.randomizer-page .randomizer-hero-subtitle {
+  margin: 0 auto;
+  max-width: 38ch;
+  color: var(--muted);
+  font-size: 1.08rem;
+  line-height: 1.7;
+}
+
+.randomizer-page .randomizer-hero-kicker,
+.randomizer-page .randomizer-card-kicker,
+.randomizer-page .randomizer-mode-badge,
+.randomizer-page .randomizer-mode-square-badge {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.16em !important;
+  text-transform: uppercase;
+  color: rgba(20, 32, 51, 0.58);
+}
+
+.randomizer-page .randomizer-mode-card {
+  position: relative;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  padding: 26px;
+  border: 0;
+  border-radius: 32px !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+.randomizer-page .randomizer-mode-card:hover {
+  transform: translateY(-8px) scale(1.015);
+  box-shadow: none;
+}
+
+.randomizer-page .randomizer-mode-square-border,
+.randomizer-page .randomizer-mode-square-surface {
+  display: block !important;
+  position: absolute;
+  inset: 0;
+  border-radius: 32px !important;
+}
+
+.randomizer-page .randomizer-mode-square-border {
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.68), rgba(255,255,255,0.1));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.randomizer-page .randomizer-mode-square-surface {
+  border: 1px solid rgba(255,255,255,0.16);
+  backdrop-filter: blur(18px);
+}
+
+.randomizer-page .randomizer-mode-simple .randomizer-mode-square-surface {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(147, 255, 217, 0.18), transparent 22%),
+    linear-gradient(160deg, rgba(13, 47, 56, 0.96), rgba(20, 100, 101, 0.82));
+}
+
+.randomizer-page .randomizer-mode-maker .randomizer-mode-square-surface {
+  background:
+    radial-gradient(circle at 78% 18%, rgba(255, 198, 119, 0.16), transparent 22%),
+    linear-gradient(155deg, rgba(63, 56, 96, 0.96), rgba(181, 91, 110, 0.82));
+}
+
+.randomizer-page .randomizer-mode-boss .randomizer-mode-square-surface {
+  background:
+    radial-gradient(circle at 26% 18%, rgba(255, 106, 106, 0.14), transparent 18%),
+    linear-gradient(155deg, rgba(10, 10, 18, 0.98), rgba(63, 14, 20, 0.9));
+}
+
+.randomizer-page .randomizer-mode-square-copy {
+  position: relative;
+  z-index: 2;
+  justify-items: center;
+  text-align: center;
+  gap: 10px;
+}
+
+.randomizer-page .randomizer-mode-square-badge {
+  width: auto;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255,255,255,0.54);
+}
+
+.randomizer-page .randomizer-mode-square-title {
+  font-family: var(--serif);
+  font-size: clamp(1.9rem, 2.6vw, 2.8rem);
+  line-height: 0.95;
+  color: #f8fbff;
+  text-wrap: balance;
+}
+
+.randomizer-page .randomizer-mode-square-tagline {
+  color: rgba(255,255,255,0.62);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.randomizer-page .randomizer-mode-screen,
+.randomizer-page .randomizer-mode-screen-simple,
+.randomizer-page .randomizer-mode-screen-maker,
+.randomizer-page .randomizer-mode-screen-boss {
+  overflow: hidden;
+  min-height: 70vh;
+  padding: 32px;
+  border-radius: 34px !important;
+  border: 1px solid rgba(255,255,255,0.28);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.1)),
+    radial-gradient(circle at top right, rgba(255,255,255,0.14), transparent 30%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    0 32px 70px rgba(77, 95, 132, 0.16);
+  backdrop-filter: blur(26px);
+}
+
+.randomizer-page .randomizer-mode-screen-simple {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(134, 255, 218, 0.14), transparent 18%),
+    linear-gradient(180deg, rgba(255,255,255,0.24), rgba(255,255,255,0.08)),
+    linear-gradient(160deg, rgba(9, 37, 44, 0.24), rgba(9, 37, 44, 0.06));
+}
+
+.randomizer-page .randomizer-mode-screen-maker {
+  background:
+    radial-gradient(circle at 88% 18%, rgba(255, 203, 118, 0.16), transparent 20%),
+    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08)),
+    linear-gradient(160deg, rgba(91, 64, 28, 0.14), rgba(74, 55, 16, 0.04));
+}
+
+.randomizer-page .randomizer-mode-screen-boss {
+  background:
+    radial-gradient(circle at 18% 14%, rgba(255, 106, 106, 0.14), transparent 18%),
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.06)),
+    linear-gradient(160deg, rgba(35, 8, 14, 0.22), rgba(35, 8, 14, 0.08));
+}
+
+.randomizer-page .randomizer-mode-screen-boss.is-boss-loading {
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255, 77, 77, 0.16), transparent 32%),
+    linear-gradient(180deg, rgba(8, 6, 16, 0.98), rgba(4, 4, 10, 0.96));
+  border-color: rgba(255, 59, 59, 0.14);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.08),
+    0 32px 80px rgba(28, 6, 10, 0.28);
+}
+
+.randomizer-page .randomizer-back-btn,
+.randomizer-page .randomizer-generate-btn {
+  border-radius: 999px !important;
+  border: 1px solid rgba(255,255,255,0.26) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.44),
+    0 22px 34px rgba(15, 24, 44, 0.18) !important;
+}
+
+.randomizer-page .randomizer-back-btn {
+  background: rgba(255,255,255,0.34) !important;
+  color: #142033 !important;
+  backdrop-filter: blur(18px);
+}
+
+.randomizer-page .randomizer-generate-btn {
+  min-height: 76px;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.16), rgba(255,255,255,0.06)),
+    linear-gradient(135deg, rgba(122, 255, 198, 0.56), rgba(120, 162, 255, 0.46), rgba(255, 134, 208, 0.52));
+  background-size: 100% 100%, 220% 220%;
+  color: #0d1b2c;
+  font-size: 1.28rem;
+  font-weight: 800;
+}
+
+.randomizer-page .randomizer-dashboard {
+  gap: 22px;
+}
+
+.randomizer-page .randomizer-mission-board {
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  gap: 18px;
+}
+
+.randomizer-page .randomizer-maker-single {
+  display: grid;
+}
+
+.randomizer-page .randomizer-maker-single .randomizer-problem-card {
+  min-height: 300px;
+}
+
+.randomizer-page .randomizer-challenge-card,
+.randomizer-page .randomizer-sketchbook-strip {
+  border-radius: 28px !important;
+  border: 1px solid rgba(255,255,255,0.32);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.32), rgba(255,255,255,0.14)),
+    radial-gradient(circle at top right, rgba(255,255,255,0.18), transparent 30%);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 18px 40px rgba(87, 105, 148, 0.1);
+  backdrop-filter: blur(24px);
+}
+
+.randomizer-page .randomizer-problem-card {
+  min-height: 360px;
+  align-content: center;
+  background:
+    radial-gradient(circle at 12% 16%, rgba(139, 255, 211, 0.16), transparent 24%),
+    radial-gradient(circle at 88% 80%, rgba(113, 165, 255, 0.12), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.14));
+}
+
+.randomizer-page .randomizer-problem-card h2 {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: clamp(2.45rem, 4.8vw, 4.7rem);
+  line-height: 0.95;
+  color: #13243a;
+  text-wrap: balance;
+}
+
+.randomizer-page .randomizer-problem-card p {
+  margin: 0;
+  max-width: 38ch;
+  color: rgba(14, 22, 40, 0.82);
+  font-size: clamp(1.02rem, 1.35vw, 1.22rem);
+  line-height: 1.6;
+}
+
+.randomizer-page .randomizer-problem-note {
+  display: inline-flex;
+  width: max-content;
+  max-width: 100%;
+  padding: 10px 14px;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.42);
+  color: rgba(14, 22, 40, 0.72);
+  font-size: 0.92rem;
+  font-weight: 800;
+}
+
+.randomizer-page .randomizer-problem-card::after {
+  right: 28px;
+  bottom: 24px;
+  width: 148px;
+  height: 116px;
+  border: 0;
+  border-radius: 48% 52% 42% 58% !important;
+  background:
+    radial-gradient(circle at 38% 30%, rgba(255,255,255,0.76), transparent 12%),
+    linear-gradient(135deg, rgba(125, 233, 188, 0.64), rgba(115, 168, 245, 0.36));
+  opacity: 0.32;
+  filter: blur(0.2px);
+}
+
+.randomizer-page .randomizer-choice-panel {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(255,255,255,0.46), transparent 22%),
+    linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.12));
+}
+
+.randomizer-page .randomizer-choice-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.randomizer-page .randomizer-biomimi-card {
+  border-radius: 22px !important;
+  border: 1px solid rgba(255,255,255,0.28);
+  background: rgba(255,255,255,0.16);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.44),
+    0 12px 28px rgba(30, 40, 70, 0.1);
+  backdrop-filter: blur(18px);
+}
+
+.randomizer-page .randomizer-biomimi-card {
+  min-height: 300px;
+}
+
+.randomizer-page button.randomizer-biomimi-card:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.6),
+    0 26px 50px rgba(20, 30, 50, 0.18);
+}
+
+.randomizer-page .randomizer-biomimi-card.is-selected {
+  outline: 0;
+  border-color: color-mix(in srgb, var(--org-accent) 64%, white);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.64),
+    0 0 0 3px color-mix(in srgb, var(--org-accent) 34%, transparent),
+    0 24px 50px rgba(20, 30, 50, 0.16);
+}
+
+.randomizer-page .randomizer-biomimi-card.is-muted {
+  opacity: 0.42;
+}
+
+.randomizer-page .randomizer-biomimi-image {
+  height: 170px;
+  border-radius: 22px 22px 0 0 !important;
+}
+
+.randomizer-page .randomizer-biomimi-copy {
+  padding: 14px 16px 18px;
+}
+
+.randomizer-page .randomizer-biomimi-copy strong {
+  font-family: var(--serif);
+  font-size: 1.28rem;
+  color: #13243a;
+}
+
+.randomizer-page .randomizer-biomimi-copy span {
+  color: rgba(14, 26, 46, 0.76);
+}
+
+.randomizer-page .randomizer-dashboard-boss .randomizer-problem-card {
+  background:
+    radial-gradient(circle at 12% 14%, rgba(255, 106, 106, 0.16), transparent 22%),
+    radial-gradient(circle at 84% 82%, rgba(255, 209, 102, 0.12), transparent 22%),
+    linear-gradient(180deg, rgba(255,255,255,0.24), rgba(255,255,255,0.1));
+}
+
+.randomizer-page .randomizer-forced-panel {
+  background:
+    radial-gradient(circle at 80% 12%, rgba(255, 94, 94, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08));
+}
+
+.randomizer-page .randomizer-biomimi-card.is-forced {
+  min-height: 340px;
+  color: #ffffff;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02)),
+    linear-gradient(145deg, rgba(26, 13, 22, 0.98), rgba(63, 14, 20, 0.92));
+  border-color: rgba(255,255,255,0.12);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.12),
+    0 22px 48px rgba(22, 8, 14, 0.24),
+    0 0 0 2px color-mix(in srgb, var(--org-accent) 26%, transparent);
+}
+
+.randomizer-page .randomizer-biomimi-card.is-forced .randomizer-biomimi-image {
+  height: 214px;
+}
+
+.randomizer-page .randomizer-biomimi-card.is-forced .randomizer-biomimi-copy strong,
+.randomizer-page .randomizer-biomimi-card.is-forced .randomizer-biomimi-copy span {
+  color: #ffffff;
+}
+
+.randomizer-page .randomizer-boss-single-card {
+  display: grid;
+  gap: 14px;
+  align-content: start;
+  justify-self: center;
+  width: min(420px, 100%);
+}
+
+.randomizer-page .randomizer-boss-single-card .randomizer-biomimi-card.is-forced {
+  width: 100%;
+}
+
+.randomizer-page .randomizer-boss-explore-link {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50px;
+  padding: 0 18px;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255,255,255,0.28);
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.18), rgba(255,255,255,0.08)),
+    linear-gradient(135deg, rgba(255, 209, 102, 0.7), rgba(255, 134, 134, 0.55));
+  color: #20141a;
+  font-weight: 900;
+  text-decoration: none;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.46),
+    0 14px 28px rgba(28, 6, 10, 0.16);
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.randomizer-page .randomizer-boss-explore-link:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.52),
+    0 20px 36px rgba(28, 6, 10, 0.2);
+}
+
+.randomizer-page .randomizer-maker-choice-panel {
+  min-height: 300px;
+  align-content: center;
+  justify-items: center;
+  text-align: center;
+  background:
+    radial-gradient(circle at 22% 18%, rgba(255,255,255,0.55), transparent 24%),
+    radial-gradient(circle at 82% 74%, rgba(255, 196, 121, 0.28), transparent 28%),
+    linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0.1));
+}
+
+.randomizer-page .randomizer-maker-biomimi-link {
+  position: relative;
+  isolation: isolate;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: min(360px, 100%);
+  min-height: 86px;
+  padding: 18px 26px;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255,255,255,0.4);
+  overflow: hidden;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08)),
+    linear-gradient(135deg, #8de4af, #78a2ff, #ff86d0, #ffd166);
+  background-size: 100% 100%, 240% 240%;
+  color: #0d1b2c;
+  font-size: clamp(1.05rem, 1.5vw, 1.28rem);
+  font-weight: 900;
+  line-height: 1.15;
+  text-decoration: none;
+  text-align: center;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.58),
+    0 22px 46px rgba(78, 97, 142, 0.22),
+    0 0 38px rgba(142, 228, 175, 0.24);
+  animation: randomizerMakerCtaGlow 3.4s ease-in-out infinite, randomizerMakerCtaShift 8s linear infinite;
+}
+
+.randomizer-page .randomizer-maker-biomimi-link::before {
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  border-radius: inherit !important;
+  border: 1px solid rgba(255,255,255,0.32);
+}
+
+.randomizer-page .randomizer-maker-biomimi-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(100deg, transparent 18%, rgba(255,255,255,0.58) 50%, transparent 82%);
+  transform: translateX(-130%);
+  animation: randomizerMakerCtaShine 3s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-maker-biomimi-link:hover {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.62),
+    0 28px 56px rgba(78, 97, 142, 0.26),
+    0 0 52px rgba(142, 228, 175, 0.34);
+}
+
+@keyframes randomizerMakerCtaGlow {
+  0%, 100% { filter: saturate(1); }
+  50% { filter: saturate(1.18) brightness(1.06); }
+}
+
+@keyframes randomizerMakerCtaShift {
+  0% { background-position: 0 0, 0% 50%; }
+  100% { background-position: 0 0, 200% 50%; }
+}
+
+@keyframes randomizerMakerCtaShine {
+  0%, 42% { transform: translateX(-130%); }
+  72%, 100% { transform: translateX(130%); }
+}
+
+.randomizer-page .randomizer-sketchbook-strip {
+  padding: 22px;
+  background:
+    radial-gradient(circle at 12% 12%, rgba(255,255,255,0.54), transparent 22%),
+    linear-gradient(180deg, rgba(255,255,255,0.28), rgba(255,255,255,0.12));
+}
+
+.randomizer-page .randomizer-sketchbook-strip.is-locked {
+  opacity: 0.76;
+}
+
+.randomizer-page .randomizer-sketchbook-lock {
+  min-height: 96px;
+  color: rgba(14, 22, 40, 0.66);
+}
+
+.randomizer-page .randomizer-step-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.randomizer-page .randomizer-step-card {
+  min-height: 220px;
+  padding: 18px;
+  border-radius: 22px !important;
+  border: 1px solid rgba(255,255,255,0.28);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.44),
+    0 12px 28px rgba(30, 40, 70, 0.08);
+}
+
+.randomizer-page .randomizer-step-problem {
+  background: linear-gradient(150deg, rgba(164, 244, 208, 0.4), rgba(255,255,255,0.16));
+}
+
+.randomizer-page .randomizer-step-nature {
+  background: linear-gradient(150deg, rgba(139, 214, 255, 0.34), rgba(255,255,255,0.16));
+}
+
+.randomizer-page .randomizer-step-idea {
+  background: linear-gradient(150deg, rgba(255, 215, 126, 0.34), rgba(255,255,255,0.16));
+}
+
+.randomizer-page .randomizer-step-urban-solution {
+  background: linear-gradient(150deg, rgba(255, 159, 174, 0.3), rgba(255,255,255,0.16));
+}
+
+.randomizer-page .randomizer-step-number,
+.randomizer-page .randomizer-step-icon {
+  border: 1px solid rgba(20, 32, 51, 0.14);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.58);
+}
+
+.randomizer-page .randomizer-step-number {
+  border-radius: 999px !important;
+}
+
+.randomizer-page .randomizer-step-card h4 {
+  font-family: var(--serif);
+  color: #13243a;
+}
+
+.randomizer-page .randomizer-step-card p {
+  color: rgba(14, 22, 40, 0.76);
+}
+
+.randomizer-page .randomizer-step-card li {
+  color: rgba(14, 26, 46, 0.72);
+}
+
+.randomizer-page .randomizer-step-card li::before {
+  background: rgba(20, 32, 51, 0.44);
+  border-radius: 999px !important;
+}
+
+.randomizer-page .randomizer-boss-warning-screen {
+  position: relative;
+  overflow: hidden;
+  min-height: 440px;
+}
+
+.randomizer-page .randomizer-boss-warning-orbit {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 280px;
+  height: 280px;
+  transform: translate(-50%, -50%);
+  border-radius: 50% !important;
+  border: 1px solid rgba(255,255,255,0.1);
+  animation: randomizerBossOrbit 4.8s linear infinite;
+}
+
+.randomizer-page .randomizer-boss-warning-orbit span {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 50% !important;
+  background: #ff6b6b;
+  box-shadow: 0 0 26px rgba(255, 107, 107, 0.46);
+}
+
+.randomizer-page .randomizer-boss-warning-orbit span:nth-child(1) { left: 50%; top: -11px; }
+.randomizer-page .randomizer-boss-warning-orbit span:nth-child(2) { right: 18px; bottom: 34px; background: #ffd166; }
+.randomizer-page .randomizer-boss-warning-orbit span:nth-child(3) { left: 18px; bottom: 34px; background: #8de4af; }
+
+.randomizer-page .randomizer-boss-warning-title {
+  position: relative;
+  z-index: 1;
+  max-width: 10ch;
+  font-size: clamp(3.2rem, 8vw, 6.8rem);
+  line-height: 0.92;
+  text-wrap: balance;
+}
+
+.randomizer-page .randomizer-boss-warning-eyebrow,
+.randomizer-page .randomizer-boss-warning-sub {
+  position: relative;
+  z-index: 1;
+}
+
+.randomizer-page .randomizer-boss-glitch-rings {
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 340px;
+  height: 340px;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+}
+
+.randomizer-page .randomizer-boss-glitch-rings span {
+  position: absolute;
+  inset: 0;
+  border-radius: 50% !important;
+  border: 1px solid rgba(255,255,255,0.16);
+  animation: randomizerBossRing 1.2s ease-out infinite;
+}
+
+.randomizer-page .randomizer-boss-glitch-rings span:nth-child(2) {
+  animation-delay: 0.38s;
+}
+
+@keyframes randomizerBossOrbit {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes randomizerBossRing {
+  0% { transform: scale(0.7); opacity: 0.5; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@media (max-width: 1180px) {
+  .randomizer-page .randomizer-mission-board {
+    grid-template-columns: 1fr;
+  }
+
+  .randomizer-page .randomizer-step-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .randomizer-page .randomizer-hero,
+  .randomizer-page .randomizer-mode-screen {
+    padding: 24px;
+    border-radius: 26px !important;
+  }
+
+  .randomizer-page .randomizer-mode-grid,
+  .randomizer-page .randomizer-choice-grid,
+  .randomizer-page .randomizer-step-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .randomizer-page .randomizer-mode-card {
+    aspect-ratio: 1 / 0.72;
+  }
+
+  .randomizer-page .randomizer-problem-card,
+  .randomizer-page .randomizer-maker-single .randomizer-problem-card,
+  .randomizer-page .randomizer-challenge-card {
+    min-height: 0;
+  }
+
+  .randomizer-page .randomizer-problem-card h2 {
+    font-size: clamp(2.2rem, 12vw, 3.6rem);
+  }
+
+  .randomizer-page .randomizer-boss-warning-title {
+    font-size: clamp(2.7rem, 14vw, 4.2rem);
+  }
+}
+
+/* GENERATE MISSION MOMENT */
+.randomizer-page .randomizer-mode-launch {
+  gap: 18px;
+}
+
+.randomizer-page .randomizer-generate-btn {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-grid;
+  grid-template-columns: 56px minmax(0, 1fr);
+  align-items: center;
+  gap: 16px;
+  width: min(460px, 100%);
+  min-height: 88px;
+  padding: 12px 24px 12px 14px;
+  border-radius: 999px !important;
+  border: 1px solid rgba(255,255,255,0.44) !important;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.22), rgba(255,255,255,0.06)),
+    linear-gradient(135deg, #8de4af, #ffd166, #ff8fb3, #84d8ff);
+  background-size: 100% 100%, 260% 260%;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.62),
+    0 24px 42px rgba(62, 87, 128, 0.22),
+    0 0 44px rgba(141, 228, 175, 0.2) !important;
+  animation: randomizerGenerateGradient 8s linear infinite, randomizerGeneratePulse 2.8s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-generate-btn::before {
+  display: block;
+  content: "";
+  position: absolute;
+  inset: 7px;
+  z-index: -1;
+  border-radius: inherit !important;
+  border: 1px solid rgba(255,255,255,0.32);
+  background: linear-gradient(120deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
+  transform: none;
+  animation: none;
+}
+
+.randomizer-page .randomizer-generate-btn::after {
+  display: block;
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border: 0;
+  background: linear-gradient(100deg, transparent 18%, rgba(255,255,255,0.62) 50%, transparent 82%);
+  transform: translateX(-130%);
+  animation: randomizerGenerateShine 3.4s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-generate-btn:hover:not(:disabled) {
+  transform: translateY(-3px) scale(1.015);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.68),
+    0 32px 54px rgba(62, 87, 128, 0.26),
+    0 0 60px rgba(141, 228, 175, 0.3) !important;
+}
+
+.randomizer-page .randomizer-generate-btn:active:not(:disabled) {
+  transform: translateY(0) scale(0.99);
+}
+
+.randomizer-page .randomizer-generate-icon {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 50% !important;
+  background: rgba(255,255,255,0.46);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 10px 22px rgba(26, 40, 70, 0.12);
+}
+
+.randomizer-page .randomizer-generate-icon i {
+  position: absolute;
+  display: block;
+  width: 26px;
+  height: 17px;
+  border-radius: 6px !important;
+  border: 1px solid rgba(13, 27, 44, 0.2);
+  background: rgba(255,255,255,0.76);
+  box-shadow: 0 8px 14px rgba(26, 40, 70, 0.08);
+  transform-origin: center;
+  animation: randomizerGenerateCards 2.6s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-generate-icon i:nth-child(1) {
+  transform: translate(-8px, 5px) rotate(-12deg);
+}
+
+.randomizer-page .randomizer-generate-icon i:nth-child(2) {
+  transform: translate(0, 0) rotate(2deg);
+  animation-delay: 120ms;
+}
+
+.randomizer-page .randomizer-generate-icon i:nth-child(3) {
+  transform: translate(8px, -5px) rotate(12deg);
+  animation-delay: 240ms;
+}
+
+.randomizer-page .randomizer-generate-copy {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  text-align: left;
+}
+
+.randomizer-page .randomizer-generate-copy strong {
+  color: #0d1b2c;
+  font-size: 1.2rem;
+  line-height: 1.1;
+}
+
+.randomizer-page .randomizer-generate-copy small {
+  color: rgba(13, 27, 44, 0.68);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.randomizer-page .randomizer-loading-stage {
+  position: relative;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 24px;
+  min-height: 430px;
+  padding: 32px;
+  border-radius: 32px !important;
+  border: 1px solid rgba(255,255,255,0.28);
+  background:
+    radial-gradient(ellipse at 20% 18%, rgba(141, 228, 175, 0.18), transparent 32%),
+    radial-gradient(ellipse at 84% 78%, rgba(255, 209, 102, 0.14), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,0.22), rgba(255,255,255,0.08));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.54),
+    0 26px 56px rgba(66, 77, 108, 0.14);
+  backdrop-filter: blur(24px);
+}
+
+.randomizer-page .randomizer-loading-stage::before {
+  content: "";
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 50%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.62), transparent);
+  animation: randomizerLoadingLine 2.4s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-loading-visual {
+  position: relative;
+  width: min(360px, 82vw);
+  height: 220px;
+}
+
+.randomizer-page .randomizer-loading-path {
+  position: absolute;
+  left: 42px;
+  right: 42px;
+  top: 50%;
+  height: 72px;
+  transform: translateY(-50%);
+  border-radius: 999px !important;
+  border: 1px solid rgba(255,255,255,0.18);
+  background:
+    linear-gradient(90deg, rgba(141, 228, 175, 0.18), rgba(132, 216, 255, 0.16), rgba(255, 209, 102, 0.18));
+}
+
+.randomizer-page .randomizer-loading-path span {
+  position: absolute;
+  left: 20px;
+  top: 50%;
+  width: 34px;
+  height: 8px;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.86);
+  box-shadow: 0 0 22px rgba(255,255,255,0.38);
+  transform: translateY(-50%);
+  animation: randomizerLoadingPath 1.8s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-loading-deck {
+  position: absolute;
+  inset: 0;
+}
+
+.randomizer-page .randomizer-loading-card {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 118px;
+  height: 150px;
+  border-radius: 24px !important;
+  border: 1px solid rgba(255,255,255,0.34);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.34), rgba(255,255,255,0.12)),
+    linear-gradient(145deg, rgba(141, 228, 175, 0.34), rgba(132, 216, 255, 0.22));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 18px 38px rgba(26, 40, 70, 0.14);
+}
+
+.randomizer-page .randomizer-loading-card::before,
+.randomizer-page .randomizer-loading-card::after {
+  content: "";
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  height: 8px;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.62);
+}
+
+.randomizer-page .randomizer-loading-card::before {
+  top: 28px;
+}
+
+.randomizer-page .randomizer-loading-card::after {
+  top: 46px;
+  right: 42px;
+}
+
+.randomizer-page .randomizer-loading-card-a {
+  transform: translate(-72%, -50%) rotate(-12deg);
+  animation: randomizerLoadingCardA 2.2s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-loading-card-b {
+  transform: translate(-50%, -54%) rotate(1deg);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.14)),
+    linear-gradient(145deg, rgba(255, 209, 102, 0.36), rgba(255, 143, 179, 0.2));
+  animation: randomizerLoadingCardB 2.2s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-loading-card-c {
+  transform: translate(-28%, -50%) rotate(12deg);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.36), rgba(255,255,255,0.14)),
+    linear-gradient(145deg, rgba(132, 216, 255, 0.36), rgba(141, 228, 175, 0.2));
+  animation: randomizerLoadingCardC 2.2s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-loading-seed {
+  position: absolute;
+  left: 50%;
+  bottom: 16px;
+  width: 78px;
+  height: 24px;
+  transform: translateX(-50%);
+  border-radius: 999px !important;
+  background: rgba(255,255,255,0.18);
+}
+
+.randomizer-page .randomizer-loading-seed span {
+  position: absolute;
+  left: 50%;
+  bottom: 8px;
+  width: 18px;
+  height: 36px;
+  border-radius: 999px 999px 8px 8px !important;
+  background: linear-gradient(180deg, #b8ffd5, #4ab778);
+  transform: translateX(-50%) scaleY(0.7);
+  transform-origin: bottom;
+  animation: randomizerLoadingSeed 2.2s ease-in-out infinite;
+}
+
+.randomizer-page .randomizer-loading-copy {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 8px;
+  text-align: center;
+}
+
+.randomizer-page .randomizer-loading-copy p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 2rem;
+  line-height: 1;
+  color: #13243a;
+}
+
+.randomizer-page .randomizer-loading-copy span {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.12em !important;
+  text-transform: uppercase;
+  color: rgba(20, 32, 51, 0.56);
+}
+
+@keyframes randomizerGenerateGradient {
+  0% { background-position: 0 0, 0% 50%; }
+  100% { background-position: 0 0, 200% 50%; }
+}
+
+@keyframes randomizerGeneratePulse {
+  0%, 100% { filter: saturate(1); }
+  50% { filter: saturate(1.16) brightness(1.04); }
+}
+
+@keyframes randomizerGenerateShine {
+  0%, 42% { transform: translateX(-130%); }
+  72%, 100% { transform: translateX(130%); }
+}
+
+@keyframes randomizerGenerateCards {
+  0%, 100% { margin-top: 0; }
+  50% { margin-top: -5px; }
+}
+
+@keyframes randomizerLoadingLine {
+  0%, 100% { opacity: 0.22; transform: scaleX(0.74); }
+  50% { opacity: 0.66; transform: scaleX(1); }
+}
+
+@keyframes randomizerLoadingPath {
+  0% { left: 20px; opacity: 0; }
+  18%, 74% { opacity: 1; }
+  100% { left: calc(100% - 54px); opacity: 0; }
+}
+
+@keyframes randomizerLoadingCardA {
+  0%, 100% { transform: translate(-72%, -50%) rotate(-12deg); }
+  50% { transform: translate(-80%, -54%) rotate(-18deg); }
+}
+
+@keyframes randomizerLoadingCardB {
+  0%, 100% { transform: translate(-50%, -54%) rotate(1deg) scale(1); }
+  50% { transform: translate(-50%, -62%) rotate(0deg) scale(1.04); }
+}
+
+@keyframes randomizerLoadingCardC {
+  0%, 100% { transform: translate(-28%, -50%) rotate(12deg); }
+  50% { transform: translate(-20%, -54%) rotate(18deg); }
+}
+
+@keyframes randomizerLoadingSeed {
+  0%, 100% { transform: translateX(-50%) scaleY(0.7); opacity: 0.72; }
+  50% { transform: translateX(-50%) scaleY(1); opacity: 1; }
+}
+
+@media (max-width: 760px) {
+  .randomizer-page .randomizer-generate-btn {
+    grid-template-columns: 48px minmax(0, 1fr);
+    min-height: 78px;
+    padding: 10px 18px 10px 12px;
+  }
+
+  .randomizer-page .randomizer-generate-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .randomizer-page .randomizer-loading-stage {
+    min-height: 340px;
+    padding: 22px;
+  }
+
+  .randomizer-page .randomizer-loading-visual {
+    width: min(300px, 88vw);
+    height: 190px;
+  }
+
+  .randomizer-page .randomizer-loading-card {
+    width: 98px;
+    height: 128px;
+  }
+
+  .randomizer-page .randomizer-loading-copy p {
+    font-size: 1.6rem;
+  }
+}

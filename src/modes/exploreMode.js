@@ -22,14 +22,16 @@ function randomCard(exceptId = null) {
   return pool[Math.floor(Math.random() * pool.length)];
 }
 
-export function renderExploreMode(root) {
+export function renderExploreMode(root, routeInfo = {}) {
   const shuffledCards = shuffle(ORGANISMS);
   const touchMode = window.matchMedia("(hover: none), (pointer: coarse)").matches;
   const VISITED_KEY = "biomimi-visited";
   const visited = new Set(JSON.parse(localStorage.getItem(VISITED_KEY) || "[]"));
+  const routeCardId = routeInfo?.segments?.[1] ?? null;
+  const routeCard = ORGANISMS.find((card) => card.id === routeCardId);
 
   const state = {
-    selectedCardId: null,
+    selectedCardId: routeCard?.id ?? null,
     shuffledIds: shuffledCards.map((card) => card.id),
     hasAnimatedGrid: false,
     filterKingdom: "all",

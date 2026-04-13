@@ -8,28 +8,61 @@ const MODES = [
     id: "simple",
     slug: "starter",
     title: "Starter Mission",
-    tagline: "Choose a guide. Frame the challenge.",
-    vibe: "calm",
+    tagline: "Pick one BioMimi guide.",
+    badge: "Guided",
   },
   {
     id: "maker",
     slug: "maker",
     title: "Maker Mission",
-    tagline: "Invent a city system.",
-    vibe: "moderate",
+    tagline: "Find your own organism.",
+    badge: "Independent",
   },
   {
     id: "boss",
     slug: "final-boss",
     title: "Final Boss",
-    tagline: "No choices. Just adapt.",
-    vibe: "chaotic",
+    tagline: "Use it. No reroll.",
+    badge: "Creative Challenge",
   },
 ];
 
+const SKETCHBOOK_STEPS = [
+  {
+    id: "problem",
+    label: "Problem",
+    action: "See the problem",
+    prompts: ["City problem", "2 or 3 symptoms", "Root cause"],
+  },
+  {
+    id: "nature",
+    label: "Nature",
+    action: "Learn from nature",
+    prompts: ["Organism or system", "Strategy it uses"],
+  },
+  {
+    id: "idea",
+    label: "Idea",
+    action: "Turn it into design",
+    prompts: ["Nature does ___", "We design ___"],
+  },
+  {
+    id: "urban-solution",
+    label: "Urban Solution",
+    action: "Build the city idea",
+    prompts: ["Where it fits", "How it improves the place"],
+  },
+];
+
+const GENERATION_DURATION = 5000;
+const BOSS_WARNING_DURATION = 2500;
+const BOSS_GLITCH_DURATION = GENERATION_DURATION - BOSS_WARNING_DURATION;
+
+const ORGANISMS_BY_ID = Object.fromEntries(ORGANISMS.map((organism) => [organism.id, organism]));
+
 function createDeck(modeId, excludeId = null) {
   const pool = RANDOMIZER_MISSION_POOLS[modeId] || [];
-  const available = excludeId ? pool.filter((m) => m.id !== excludeId) : pool;
+  const available = excludeId ? pool.filter((mission) => mission.id !== excludeId) : pool;
   return shuffle(available);
 }
 
@@ -59,6 +92,14 @@ function getModeFromRoute(routeInfo) {
   return MODES.find((mode) => mode.slug === segment || mode.id === segment) || null;
 }
 
+function getOrganismById(id) {
+  return ORGANISMS_BY_ID[id] || null;
+}
+
+function getOrganismsByIds(ids = []) {
+  return ids.map(getOrganismById).filter(Boolean);
+}
+
 function drawMission(modeId) {
   const modeState = state.modes[modeId];
   if (!modeState.deck.length) {
@@ -67,44 +108,26 @@ function drawMission(modeId) {
   return modeState.deck.pop() || (RANDOMIZER_MISSION_POOLS[modeId] || [])[0] || null;
 }
 
-function drawCandidateOrganisms(count = 3) {
-  return shuffle([...ORGANISMS]).slice(0, count);
-}
-
-function drawOrganism() {
-  return ORGANISMS[Math.floor(Math.random() * ORGANISMS.length)];
-}
-
-/* ─── Loading stages ─────────────────────────────────────────────────────── */
-
-function renderSproutStage() {
+function renderLoadingStage(label, modifier = "") {
   return `
-    <div class="randomizer-sprout-stage" aria-live="polite">
-      <div class="randomizer-sprout-glow"></div>
-      <div class="randomizer-sprout-scene" aria-hidden="true">
-        <span class="randomizer-sprout-halo"></span>
-        <span class="randomizer-sprout-seed"></span>
-        <span class="randomizer-sprout-stem"></span>
-        <span class="randomizer-sprout-leaf randomizer-sprout-leaf-a"></span>
-        <span class="randomizer-sprout-leaf randomizer-sprout-leaf-b"></span>
-        <span class="randomizer-sprout-leaf randomizer-sprout-leaf-c"></span>
-        <span class="randomizer-sprout-soil"></span>
+    <div class="randomizer-loading-stage ${modifier}" aria-live="polite">
+      <div class="randomizer-loading-visual" aria-hidden="true">
+        <div class="randomizer-loading-path">
+          <span></span>
+        </div>
+        <div class="randomizer-loading-deck">
+          <span class="randomizer-loading-card randomizer-loading-card-a"></span>
+          <span class="randomizer-loading-card randomizer-loading-card-b"></span>
+          <span class="randomizer-loading-card randomizer-loading-card-c"></span>
+        </div>
+        <div class="randomizer-loading-seed">
+          <span></span>
+        </div>
       </div>
-      <p class="randomizer-sprout-label">Growing mission…</p>
-    </div>
-  `;
-}
-
-function renderGlassStage() {
-  return `
-    <div class="randomizer-glass-stage" aria-live="polite">
-      <div class="randomizer-glass-crystal" aria-hidden="true">
-        <span class="randomizer-glass-shard randomizer-glass-shard-a"></span>
-        <span class="randomizer-glass-shard randomizer-glass-shard-b"></span>
-        <span class="randomizer-glass-shard randomizer-glass-shard-c"></span>
-        <span class="randomizer-glass-core"></span>
+      <div class="randomizer-loading-copy">
+        <p>${escapeHtml(label)}</p>
+        <span>Problem. Nature. Idea. City.</span>
       </div>
-      <p class="randomizer-glass-label">Forming mission…</p>
     </div>
   `;
 }
@@ -112,9 +135,14 @@ function renderGlassStage() {
 function renderBossWarningStage() {
   return `
     <div class="randomizer-boss-warning-screen" aria-live="polite">
+      <div class="randomizer-boss-warning-orbit" aria-hidden="true">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
       <p class="randomizer-boss-warning-eyebrow">Final Boss</p>
-      <h2 class="randomizer-boss-warning-title">YOU HAVE<br>NO CONTROL</h2>
-      <p class="randomizer-boss-warning-sub">The system is choosing for you.</p>
+      <h2 class="randomizer-boss-warning-title">There is no choice</h2>
+      <p class="randomizer-boss-warning-sub">Use it. No reroll.</p>
     </div>
   `;
 }
@@ -124,161 +152,167 @@ function renderBossGlitchStage() {
     <div class="randomizer-boss-glitch-screen" aria-hidden="true">
       <div class="randomizer-boss-glitch-lines"></div>
       <div class="randomizer-boss-glitch-noise"></div>
+      <div class="randomizer-boss-glitch-rings">
+        <span></span>
+        <span></span>
+      </div>
       <p class="randomizer-boss-glitch-text glitch-text" data-text="ADAPT FAST">ADAPT FAST</p>
     </div>
   `;
 }
 
-/* ─── Mission renders ─────────────────────────────────────────────────────── */
-
-function renderOrganismPicker(organisms) {
+function renderProblemCard(mission, mode, note = "") {
   return `
-    <div class="randomizer-organism-choice">
-      <p class="randomizer-organism-choice-label">Choose your BioMimi guide</p>
-      <div class="randomizer-organism-grid">
-        ${organisms.map((org) => `
-          <button
-            class="randomizer-org-card"
-            type="button"
-            data-action="pick-organism"
-            data-organism-id="${escapeHtml(org.id)}"
-            style="--org-accent:${escapeHtml(KINGDOM_COLORS[org.category])};"
-          >
-            <div class="randomizer-org-image-wrap">
-              <img src="${escapeHtml(org.imagePath)}" alt="${escapeHtml(org.name)}" loading="lazy" decoding="async">
-              <div class="randomizer-org-image-overlay"></div>
-            </div>
-            <div class="randomizer-org-copy">
-              <p class="randomizer-org-kingdom">${escapeHtml(org.category)}</p>
-              <strong class="randomizer-org-name">${escapeHtml(org.name)}</strong>
-              <span class="randomizer-org-principle">${escapeHtml(org.principle)}</span>
-            </div>
-          </button>
-        `).join("")}
-      </div>
-    </div>
+    <section class="randomizer-challenge-card randomizer-problem-card">
+      <p class="randomizer-card-kicker">${escapeHtml(mode.title)} / ${escapeHtml(mode.badge)}</p>
+      <h2>${escapeHtml(mission.title)}</h2>
+      <p>${escapeHtml(mission.problem)}</p>
+      ${note ? `<span class="randomizer-problem-note">${escapeHtml(note)}</span>` : ""}
+    </section>
   `;
 }
 
-function renderStarterMission(mission, modeState) {
-  const { candidateOrganisms, selectedOrganism } = modeState;
-
-  const problemCard = `
-    <div class="randomizer-starter-problem">
-      <p class="randomizer-mission-area">${escapeHtml(mission.area)} city challenge</p>
-      <h3 class="randomizer-starter-problem-title">${escapeHtml(mission.problem)}</h3>
-      <p class="randomizer-starter-brief">${escapeHtml(mission.brief)}</p>
+function renderOrganismCard(organism, options = {}) {
+  const {
+    action = "",
+    selected = false,
+    muted = false,
+    forced = false,
+    label = "",
+  } = options;
+  const classes = [
+    "randomizer-biomimi-card",
+    selected ? "is-selected" : "",
+    muted ? "is-muted" : "",
+    forced ? "is-forced" : "",
+  ].filter(Boolean).join(" ");
+  const style = `--org-accent:${escapeHtml(KINGDOM_COLORS[organism.category] || "#222222")};`;
+  const content = `
+    <div class="randomizer-biomimi-image">
+      <img src="${escapeHtml(organism.imagePath)}" alt="${escapeHtml(organism.name)}" loading="lazy" decoding="async">
+    </div>
+    <div class="randomizer-biomimi-copy">
+      <p>${escapeHtml(label || organism.category)}</p>
+      <strong>${escapeHtml(organism.name)}</strong>
+      <span>${escapeHtml(organism.principle)}</span>
     </div>
   `;
 
-  if (!selectedOrganism) {
+  if (action) {
     return `
-      <article class="randomizer-starter-mission" aria-live="polite">
-        ${problemCard}
-        ${renderOrganismPicker(candidateOrganisms)}
-      </article>
+      <button
+        class="${classes}"
+        type="button"
+        data-action="${escapeHtml(action)}"
+        data-organism-id="${escapeHtml(organism.id)}"
+        style="${style}"
+      >
+        ${content}
+      </button>
     `;
   }
 
-  const prompts = [
-    { kicker: "Pressure map", title: "Read the city", body: mission.questions[0] },
-    { kicker: `${selectedOrganism.name} clue`, title: "Borrow the strategy", body: mission.questions[1] },
-    { kicker: "Prototype test", title: "Push the idea", body: mission.questions[2] },
-  ];
-
-  return `
-    <article class="randomizer-starter-mission randomizer-starter-mission-chosen" aria-live="polite">
-      ${problemCard}
-      <div class="randomizer-starter-chosen">
-        <div class="randomizer-chosen-card" style="--org-accent:${escapeHtml(KINGDOM_COLORS[selectedOrganism.category])};">
-          <img src="${escapeHtml(selectedOrganism.imagePath)}" alt="${escapeHtml(selectedOrganism.name)}" loading="lazy" decoding="async">
-          <div class="randomizer-chosen-overlay"></div>
-          <div class="randomizer-chosen-info">
-            <p>${escapeHtml(selectedOrganism.category)}</p>
-            <strong>${escapeHtml(selectedOrganism.name)}</strong>
-            <span>${escapeHtml(selectedOrganism.principle)}</span>
-          </div>
-        </div>
-        <div class="randomizer-starter-prompts">
-          ${prompts.map((p) => `
-            <article class="randomizer-starter-prompt">
-              <p class="randomizer-starter-prompt-kicker">${escapeHtml(p.kicker)}</p>
-              <h4>${escapeHtml(p.title)}</h4>
-              <p>${escapeHtml(p.body)}</p>
-            </article>
-          `).join("")}
-        </div>
-      </div>
-      <div class="randomizer-starter-actions">
-        <button class="randomizer-mission-regenerate" type="button" data-action="generate">Generate another mission</button>
-      </div>
-    </article>
-  `;
+  return `<article class="${classes}" style="${style}">${content}</article>`;
 }
 
-function renderMakerMission(mission) {
-  const prompts = [
-    { kicker: "System scope", title: "Frame the city", body: mission.questions[0] },
-    { kicker: "Flow design", title: "Connect the flows", body: mission.questions[1] },
-    { kicker: "Realism check", title: "Ground the idea", body: mission.questions[2] },
-  ];
+function renderSketchbookCanvas({ locked = false } = {}) {
+  if (locked) {
+    return `
+      <section class="randomizer-sketchbook-strip is-locked" aria-label="Sketchbook steps">
+        <div class="randomizer-sketchbook-lock">
+          <strong>Pick one BioMimi.</strong>
+          <span>Then draw the 4 steps in your sketchbook.</span>
+        </div>
+      </section>
+    `;
+  }
 
   return `
-    <article class="randomizer-maker-mission" aria-live="polite">
-      <div class="randomizer-maker-header">
-        <span class="randomizer-maker-system-badge">${escapeHtml(mission.area)}</span>
-        <h3 class="randomizer-maker-problem">${escapeHtml(mission.problem)}</h3>
-        <p class="randomizer-maker-brief">${escapeHtml(mission.brief)}</p>
-        <button class="randomizer-mission-regenerate" type="button" data-action="generate">New challenge</button>
+    <section class="randomizer-sketchbook-strip" aria-label="Sketchbook steps">
+      <div class="randomizer-sketchbook-note">
+        <span>Sketchbook Canvas</span>
+        <strong>Draw. Do not type.</strong>
       </div>
-      <div class="randomizer-maker-panels-grid">
-        ${prompts.map((p, i) => `
-          <article class="randomizer-maker-panel${i === 0 ? " randomizer-maker-panel-feature" : ""}">
-            <p class="randomizer-maker-panel-kicker">${escapeHtml(p.kicker)}</p>
-            <h4>${escapeHtml(p.title)}</h4>
-            <p>${escapeHtml(p.body)}</p>
+      <div class="randomizer-step-grid">
+        ${SKETCHBOOK_STEPS.map((step, index) => `
+          <article class="randomizer-step-card randomizer-step-${escapeHtml(step.id)}">
+            <div class="randomizer-step-head">
+              <span class="randomizer-step-number">${index + 1}</span>
+              <span class="randomizer-step-icon" aria-hidden="true"></span>
+            </div>
+            <h4>${escapeHtml(step.label)}</h4>
+            <p>${escapeHtml(step.action)}</p>
+            <ul>
+              ${step.prompts.map((prompt) => `<li>${escapeHtml(prompt)}</li>`).join("")}
+            </ul>
           </article>
         `).join("")}
       </div>
-    </article>
+    </section>
   `;
 }
 
-function renderBossMission(mission, organism) {
+function renderStarterMission(mode, mission, modeState) {
+  const organisms = modeState.candidateOrganisms;
+  const selectedOrganism = modeState.selectedOrganism;
+
   return `
-    <article class="randomizer-boss-mission" aria-live="polite">
-      <div class="randomizer-boss-split">
-        <div class="randomizer-boss-problem-panel">
-          <p class="randomizer-mission-area">${escapeHtml(mission.area)} emergency</p>
-          <h3>${escapeHtml(mission.problem)}</h3>
-          <p>${escapeHtml(mission.brief)}</p>
-        </div>
-        <div class="randomizer-boss-org-panel" style="--boss-accent:${escapeHtml(KINGDOM_COLORS[organism.category])};">
-          <img src="${escapeHtml(organism.imagePath)}" alt="${escapeHtml(organism.name)}" loading="lazy" decoding="async">
-          <div class="randomizer-boss-org-overlay"></div>
-          <div class="randomizer-boss-org-info">
-            <p>${escapeHtml(organism.category)}</p>
-            <strong>${escapeHtml(organism.name)}</strong>
-            <span>${escapeHtml(organism.principle)}</span>
+    <article class="randomizer-dashboard randomizer-dashboard-simple" aria-live="polite">
+      <div class="randomizer-mission-board randomizer-starter-board">
+        ${renderProblemCard(mission, mode, selectedOrganism ? "Use your chosen BioMimi." : "Choose 1 BioMimi card.")}
+        <section class="randomizer-challenge-card randomizer-choice-panel">
+          <p class="randomizer-card-kicker">${selectedOrganism ? "Chosen Nature" : "Choose Nature"}</p>
+          <div class="randomizer-choice-grid">
+            ${organisms.map((organism) => renderOrganismCard(organism, {
+              action: "pick-organism",
+              selected: selectedOrganism?.id === organism.id,
+              muted: Boolean(selectedOrganism && selectedOrganism.id !== organism.id),
+              label: selectedOrganism?.id === organism.id ? "Chosen" : organism.category,
+            })).join("")}
           </div>
-        </div>
+        </section>
       </div>
-      <div class="randomizer-boss-questions">
-        ${mission.questions.map((q, i) => `
-          <div class="randomizer-boss-question">
-            <span class="randomizer-boss-q-number">0${i + 1}</span>
-            <p>${escapeHtml(q)}</p>
-          </div>
-        `).join("")}
-      </div>
-      <div class="randomizer-boss-mission-footer">
-        <button class="randomizer-mission-regenerate randomizer-boss-regen" type="button" data-action="generate">Survive Again</button>
-      </div>
+      ${renderSketchbookCanvas({ locked: !selectedOrganism })}
     </article>
   `;
 }
 
-/* ─── Engine ──────────────────────────────────────────────────────────────── */
+function renderMakerMission(mode, mission) {
+  return `
+    <article class="randomizer-dashboard randomizer-dashboard-maker" aria-live="polite">
+      <div class="randomizer-mission-board randomizer-maker-board">
+        ${renderProblemCard(mission, mode, "Draw the canvas first. Then explore BioMimis on your own.")}
+        <section class="randomizer-challenge-card randomizer-maker-choice-panel">
+          <p class="randomizer-card-kicker">Nature Search</p>
+          <a class="randomizer-maker-biomimi-link" href="./#/explore" target="_blank" rel="noopener noreferrer">Choose you BioMimi card</a>
+        </section>
+      </div>
+      ${renderSketchbookCanvas()}
+    </article>
+  `;
+}
+
+function renderBossMission(mode, mission, organism) {
+  if (!organism) {
+    return "";
+  }
+
+  return `
+    <article class="randomizer-dashboard randomizer-dashboard-boss" aria-live="polite">
+      <div class="randomizer-mission-board randomizer-boss-board">
+        ${renderProblemCard(mission, mode, "There is no choice. Make the connection.")}
+        <section class="randomizer-challenge-card randomizer-forced-panel">
+          <p class="randomizer-card-kicker">Forced Nature</p>
+          <div class="randomizer-boss-single-card">
+            ${renderOrganismCard(organism, { forced: true, label: "Use it" })}
+            <a class="randomizer-boss-explore-link" href="./#/explore/${escapeHtml(organism.id)}" target="_blank" rel="noopener noreferrer">Open this BioMimi</a>
+          </div>
+        </section>
+      </div>
+      ${renderSketchbookCanvas()}
+    </article>
+  `;
+}
 
 export function renderRandomizerEngine(root, routeInfo) {
   function clearTimer(modeState) {
@@ -292,24 +326,46 @@ export function renderRandomizerEngine(root, routeInfo) {
     Object.values(state.modes).forEach(clearTimer);
   }
 
+  function resetModeState(modeState) {
+    clearTimer(modeState);
+    modeState.mission = null;
+    modeState.isGenerating = false;
+    modeState.selectedOrganism = null;
+    modeState.candidateOrganisms = [];
+    modeState.assignedOrganism = null;
+    modeState.bossPhase = "idle";
+  }
+
   function goHome() {
     window.location.hash = "#/mission";
   }
 
   function openMode(modeId) {
-    const mode = MODES.find((m) => m.id === modeId);
+    const mode = MODES.find((item) => item.id === modeId);
     if (!mode) return;
+
     const modeState = state.modes[modeId];
     if (modeState) {
-      clearTimer(modeState);
-      modeState.mission = null;
-      modeState.isGenerating = false;
-      modeState.selectedOrganism = null;
-      modeState.candidateOrganisms = [];
-      modeState.assignedOrganism = null;
-      modeState.bossPhase = "idle";
+      resetModeState(modeState);
     }
+
     window.location.hash = `#/mission/${mode.slug}`;
+  }
+
+  function revealMission(modeId) {
+    const modeState = state.modes[modeId];
+    const mission = drawMission(modeId);
+
+    modeState.mission = mission;
+    modeState.selectedOrganism = null;
+    modeState.candidateOrganisms = modeId === "simple"
+      ? getOrganismsByIds(mission?.suggestedOrganisms)
+      : [];
+    modeState.assignedOrganism = modeId === "boss"
+      ? getOrganismById(mission?.assignedOrganism)
+      : null;
+    modeState.isGenerating = false;
+    modeState.timer = null;
   }
 
   function generateMission(modeId) {
@@ -330,40 +386,28 @@ export function renderRandomizerEngine(root, routeInfo) {
         modeState.bossPhase = "glitch";
         render();
         modeState.timer = window.setTimeout(() => {
-          modeState.mission = drawMission(modeId);
-          modeState.assignedOrganism = drawOrganism();
+          revealMission(modeId);
           modeState.bossPhase = "reveal";
-          modeState.isGenerating = false;
-          modeState.timer = null;
           render();
-        }, 2000);
-      }, 2200);
+        }, BOSS_GLITCH_DURATION);
+      }, BOSS_WARNING_DURATION);
       return;
     }
 
     render();
-
-    const duration = modeId === "maker" ? 2800 : 3600;
     modeState.timer = window.setTimeout(() => {
-      modeState.mission = drawMission(modeId);
-      if (modeId === "simple") {
-        modeState.candidateOrganisms = drawCandidateOrganisms(3);
-      }
-      modeState.isGenerating = false;
-      modeState.timer = null;
+      revealMission(modeId);
       render();
-    }, duration);
+    }, GENERATION_DURATION);
   }
 
   function renderHome() {
     root.innerHTML = `
       <section class="mode-page randomizer-page">
         <section class="randomizer-hero">
-          <div class="randomizer-hero-glow randomizer-hero-glow-a"></div>
-          <div class="randomizer-hero-glow randomizer-hero-glow-b"></div>
           <p class="randomizer-hero-kicker">BioMimis</p>
-          <h1>RANDOMIZER</h1>
-          <p class="randomizer-hero-subtitle">Choose one mode to open a city mission for your class.</p>
+          <h1>Mission Randomizer</h1>
+          <p class="randomizer-hero-subtitle">Choose a mode. Get a city problem. Draw your idea.</p>
         </section>
         <section class="randomizer-mode-grid" id="randomizer-mode-grid"></section>
       </section>
@@ -386,18 +430,17 @@ export function renderRandomizerEngine(root, routeInfo) {
         bodyMarkup = modeState.bossPhase === "glitch"
           ? renderBossGlitchStage()
           : renderBossWarningStage();
-      } else if (mode.id === "maker") {
-        bodyMarkup = renderGlassStage();
       } else {
-        bodyMarkup = renderSproutStage();
+        const label = mode.id === "maker" ? "Making challenge..." : "Drawing mission...";
+        bodyMarkup = renderLoadingStage(label, `randomizer-loading-${mode.id}`);
       }
     } else if (modeState.mission) {
       if (mode.id === "simple") {
-        bodyMarkup = renderStarterMission(modeState.mission, modeState);
+        bodyMarkup = renderStarterMission(mode, modeState.mission, modeState);
       } else if (mode.id === "maker") {
-        bodyMarkup = renderMakerMission(modeState.mission);
+        bodyMarkup = renderMakerMission(mode, modeState.mission);
       } else if (mode.id === "boss") {
-        bodyMarkup = renderBossMission(modeState.mission, modeState.assignedOrganism);
+        bodyMarkup = renderBossMission(mode, modeState.mission, modeState.assignedOrganism);
       }
     }
 
@@ -407,12 +450,22 @@ export function renderRandomizerEngine(root, routeInfo) {
           <div class="randomizer-mode-screen-topbar">
             <button class="btn-ghost randomizer-back-btn" type="button" data-action="back">Back to modes</button>
           </div>
-          <div class="randomizer-mode-screen-head">
-            <h2>${escapeHtml(mode.title)}</h2>
-          </div>
           ${showGenerateBtn ? `
-            <div class="randomizer-mode-screen-cta">
-              <button class="randomizer-generate-btn" type="button" data-action="generate">Generate Mission</button>
+            <div class="randomizer-mode-launch">
+              <span class="randomizer-mode-badge">${escapeHtml(mode.badge)}</span>
+              <h2>${escapeHtml(mode.title)}</h2>
+              <p>${escapeHtml(mode.tagline)}</p>
+              <button class="randomizer-generate-btn" type="button" data-action="generate">
+                <span class="randomizer-generate-icon" aria-hidden="true">
+                  <i></i>
+                  <i></i>
+                  <i></i>
+                </span>
+                <span class="randomizer-generate-copy">
+                  <strong>Generate Mission</strong>
+                  <small>Open a city challenge</small>
+                </span>
+              </button>
             </div>
           ` : ""}
           ${bodyMarkup ? `<div class="randomizer-mode-screen-body">${bodyMarkup}</div>` : ""}
@@ -421,12 +474,14 @@ export function renderRandomizerEngine(root, routeInfo) {
     `;
 
     root.querySelector('[data-action="back"]')?.addEventListener("click", goHome);
-    root.querySelector('[data-action="generate"]')?.addEventListener("click", () => generateMission(mode.id));
-    root.querySelectorAll('[data-action="pick-organism"]').forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const org = modeState.candidateOrganisms.find((o) => o.id === btn.dataset.organismId);
-        if (org) {
-          modeState.selectedOrganism = org;
+    root.querySelectorAll('[data-action="generate"]').forEach((button) => {
+      button.addEventListener("click", () => generateMission(mode.id));
+    });
+    root.querySelectorAll('[data-action="pick-organism"]').forEach((button) => {
+      button.addEventListener("click", () => {
+        const organism = modeState.candidateOrganisms.find((item) => item.id === button.dataset.organismId);
+        if (organism) {
+          modeState.selectedOrganism = organism;
           render();
         }
       });

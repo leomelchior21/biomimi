@@ -1,132 +1,174 @@
-const CITY_CHALLENGES = [
+export const STARTER_MISSIONS = [
   {
-    id: "housing-heat",
-    area: "Housing",
-    problem: "Overheating in social housing blocks",
-    brief: "A dense city housing district traps heat through dark roofs, sealed interiors, and too little tree cover, making daily life harder during long hot periods.",
+    id: "starter-hot-school-yard",
+    title: "Hot School Yard",
+    problem: "The school yard gets too hot. Students need shade, cooler air, and safer places to play.",
+    suggestedOrganisms: ["p2", "s1", "s3"],
   },
   {
-    id: "affordable-infill",
-    area: "Housing",
-    problem: "Vacant lots failing to support affordable housing",
-    brief: "Small empty lots sit unused across the city even though nearby communities need adaptable homes close to work, transit, and schools.",
+    id: "starter-flooded-sidewalk",
+    title: "Flooded Sidewalk",
+    problem: "Rainwater covers the sidewalk. People cannot walk safely after heavy rain.",
+    suggestedOrganisms: ["s4", "s5", "p6"],
   },
   {
-    id: "bus-corridor",
-    area: "Mobility",
-    problem: "Crowded and slow bus corridors",
-    brief: "One of the city's main bus corridors is overloaded, leaving riders with unreliable travel times, stressful stops, and inefficient boarding.",
+    id: "starter-dirty-building-wall",
+    title: "Dirty Building Wall",
+    problem: "The building wall gets dirty fast. Dust, water, and pollution make it hard to keep clean.",
+    suggestedOrganisms: ["p1", "a2", "s10"],
   },
   {
-    id: "transit-access",
-    area: "Mobility",
-    problem: "Transit interchanges that block accessibility",
-    brief: "A major city transfer point is exhausting for older adults, children, and people with disabilities because movement is fragmented and tiring.",
+    id: "starter-noisy-bus-stop",
+    title: "Noisy Bus Stop",
+    problem: "The bus stop is loud. Traffic, wind, and hard surfaces make waiting stressful.",
+    suggestedOrganisms: ["a3", "m2", "a4"],
   },
   {
-    id: "flooding-streets",
-    area: "Water",
-    problem: "Flash flooding in low-lying streets",
-    brief: "A city neighborhood floods after intense rain because runoff moves too fast, drains are overwhelmed, and public space cannot recover quickly.",
+    id: "starter-dry-public-square",
+    title: "Dry Public Square",
+    problem: "The public square feels dry and hot. People avoid it during sunny days.",
+    suggestedOrganisms: ["p2", "p10", "s3"],
   },
   {
-    id: "market-waste",
-    area: "Waste",
-    problem: "Waste overload in market districts",
-    brief: "A busy city market produces food scraps, packaging, and dirty runoff every day, but the district lacks a visible circular waste system.",
+    id: "starter-water-waste-park",
+    title: "Water Waste in a Park",
+    problem: "The park loses water. Rain runs away, and plants dry out too quickly.",
+    suggestedOrganisms: ["p7", "s5", "a5"],
   },
   {
-    id: "energy-peaks",
-    area: "Energy",
-    problem: "Energy pressure in apartment towers",
-    brief: "Clusters of city apartment towers hit sharp evening electricity peaks, stressing the grid and raising costs for residents.",
+    id: "starter-weak-emergency-shelter",
+    title: "Weak Emergency Shelter",
+    problem: "The shelter is light but weak. It must be easy to carry and strong in bad weather.",
+    suggestedOrganisms: ["p4", "a6", "p5"],
   },
   {
-    id: "biodiversity-gap",
-    area: "Biodiversity",
-    problem: "Broken biodiversity corridors",
-    brief: "Roads and hard development have cut off movement between two urban green areas, weakening habitat and ecological resilience across the city.",
+    id: "starter-smelly-trash-area",
+    title: "Smelly Trash Area",
+    problem: "The trash area smells bad. Waste piles up and attracts insects.",
+    suggestedOrganisms: ["s8", "m2", "s3"],
   },
   {
-    id: "river-edge",
-    area: "Biodiversity",
-    problem: "Polluted and lifeless river edges",
-    brief: "A river running through the city has hard edges, poor water quality, and very little habitat for urban species or people.",
+    id: "starter-dark-classroom",
+    title: "Dark Classroom",
+    problem: "The classroom is too dark. Students need better daylight without extra heat or glare.",
+    suggestedOrganisms: ["m1", "p8", "p3"],
   },
   {
-    id: "public-square-heat",
-    area: "Public Space",
-    problem: "Unusable public squares during heat waves",
-    brief: "A central city square empties out in summer because glare, heat, and dry air make it uncomfortable for staying, gathering, or waiting.",
+    id: "starter-flooded-plaza",
+    title: "Flooded Plaza",
+    problem: "The plaza floods after storms. Water moves too fast and stays in the wrong places.",
+    suggestedOrganisms: ["s4", "p6", "s5"],
   },
   {
-    id: "air-school",
-    area: "Air",
-    problem: "Toxic air peaks at school entrances",
-    brief: "Children arrive at urban schools through corridors of vehicle exhaust, idling engines, and ground-level particulate that spikes during morning drop-off.",
+    id: "starter-unsafe-coastal-walkway",
+    title: "Unsafe Coastal Walkway",
+    problem: "Waves damage the coastal walkway. People need protection without killing the habitat.",
+    suggestedOrganisms: ["s2", "p6", "a7"],
   },
   {
-    id: "air-canyon",
-    area: "Air",
-    problem: "Trapped pollution in dense street canyons",
-    brief: "Tall buildings on both sides of narrow city streets block wind flow, allowing vehicle exhaust and heating emissions to concentrate at pedestrian height throughout the day.",
+    id: "starter-airless-classroom",
+    title: "Airless Classroom",
+    problem: "The classroom feels airless. Heat and stale air make it hard to focus.",
+    suggestedOrganisms: ["s1", "p3", "s3"],
+  },
+  {
+    id: "starter-wasteful-school-canteen",
+    title: "Wasteful School Canteen",
+    problem: "The canteen throws away too much. Food scraps and packaging need a better loop.",
+    suggestedOrganisms: ["s8", "m2", "m7"],
+  },
+  {
+    id: "starter-boring-concrete-roof",
+    title: "Boring Concrete Roof",
+    problem: "The roof is empty and hot. It could cool the school, hold water, or support life.",
+    suggestedOrganisms: ["p10", "p7", "s3"],
+  },
+  {
+    id: "starter-unsafe-bike-path-crossing",
+    title: "Unsafe Bike Path Crossing",
+    problem: "The bike crossing feels unsafe. People, bikes, and cars move in confusing ways.",
+    suggestedOrganisms: ["m8", "s6", "a3"],
+  },
+  {
+    id: "starter-windy-street-corner",
+    title: "Windy Street Corner",
+    problem: "The street corner is too windy. Pedestrians need calmer air and safer movement.",
+    suggestedOrganisms: ["a4", "a3", "m1"],
+  },
+  {
+    id: "starter-water-scarcity-dry-district",
+    title: "Water Scarcity in a Dry District",
+    problem: "The district has too little water. Buildings and streets must collect, save, and reuse water.",
+    suggestedOrganisms: ["a5", "p2", "p7"],
+  },
+  {
+    id: "starter-lifeless-school-courtyard",
+    title: "Lifeless School Courtyard",
+    problem: "The courtyard has little life. It needs shade, habitat, and places for students to stay.",
+    suggestedOrganisms: ["s3", "p10", "s10"],
+  },
+  {
+    id: "starter-hard-flood-barrier-problem",
+    title: "Hard Flood Barrier Problem",
+    problem: "The flood barrier is too hard and simple. It blocks water but does not help people or nature.",
+    suggestedOrganisms: ["p6", "s2", "s4"],
+  },
+  {
+    id: "starter-overheated-bus-terminal",
+    title: "Overheated Bus Terminal",
+    problem: "The bus terminal overheats. Riders need shade, airflow, and cooler surfaces.",
+    suggestedOrganisms: ["s1", "p2", "a4"],
   },
 ];
 
-const MAKER_AREAS = new Set(["Energy", "Mobility", "Water", "Waste", "Biodiversity", "Air"]);
-const MAKER_CHALLENGES = CITY_CHALLENGES.filter((c) => MAKER_AREAS.has(c.area));
+export const MAKER_MISSIONS = [
+  { id: "maker-hot-school-courtyard", title: "Cool a Hot School Courtyard", problem: "Make a school courtyard cooler and safer during hot days." },
+  { id: "maker-flooding-sidewalk", title: "Reduce Flooding on a City Sidewalk", problem: "Help a sidewalk stay walkable after heavy rain." },
+  { id: "maker-clean-building-wall", title: "Make a Building Wall Easier to Clean", problem: "Design a wall that collects less dirt and needs less cleaning." },
+  { id: "maker-quieter-bus-stop", title: "Create a Quieter Bus Stop", problem: "Make a bus stop calmer, quieter, and easier to wait in." },
+  { id: "maker-shade-public-square", title: "Bring Shade to a Public Square", problem: "Add shade and comfort to a hot public square." },
+  { id: "maker-rainwater-park", title: "Collect More Rainwater in a Park", problem: "Help a park catch, store, and use more rainwater." },
+  { id: "maker-temporary-shelter", title: "Build a Stronger Temporary Shelter", problem: "Create a shelter that is light, quick to build, and strong." },
+  { id: "maker-trash-zone", title: "Improve a Smelly Trash Zone", problem: "Turn a smelly trash area into a cleaner waste system." },
+  { id: "maker-daylight-classroom", title: "Bring Daylight into a Classroom", problem: "Bring in more useful daylight without heat or glare." },
+  { id: "maker-flood-prone-plaza", title: "Redesign a Flood-Prone Plaza", problem: "Make a plaza absorb rain and recover quickly after storms." },
+  { id: "maker-coastal-walkway", title: "Protect a Coastal Walkway", problem: "Protect a walkway from waves while helping coastal life." },
+  { id: "maker-classroom-ventilation", title: "Improve Classroom Ventilation", problem: "Move fresh air through a classroom with less energy." },
+  { id: "maker-canteen-waste", title: "Reduce Waste in the Canteen", problem: "Create a better loop for food scraps, packaging, and water." },
+  { id: "maker-useful-hot-roof", title: "Transform a Hot Roof into a Useful Roof", problem: "Turn a hot roof into a cooler, greener, more useful space." },
+  { id: "maker-bike-crossing", title: "Improve a Dangerous Bike Crossing", problem: "Make movement clearer and safer for bikes, people, and cars." },
+  { id: "maker-windy-street-corner", title: "Fix a Windy Street Corner", problem: "Calm strong wind so the street corner feels safer." },
+  { id: "maker-dry-district-water", title: "Help a Dry District Save Water", problem: "Help a dry district collect, store, and reuse water." },
+  { id: "maker-courtyard-biodiversity", title: "Increase Biodiversity in a Courtyard", problem: "Bring more plants, insects, shade, and habitat into a courtyard." },
+  { id: "maker-bad-flood-barrier", title: "Redesign a Bad Flood Barrier", problem: "Make flood protection softer, smarter, and more useful." },
+  { id: "maker-overheated-bus-terminal", title: "Cool an Overheated Bus Terminal", problem: "Make a bus terminal cooler for riders and workers." },
+];
 
-function createMission(id, area, cta, problem, brief, questions) {
-  return { id, area, cta, problem, brief, questions };
-}
-
-function createSimpleMission(challenge) {
-  return createMission(
-    `simple-${challenge.id}`,
-    challenge.area,
-    "Open a city challenge, choose a BioMimi guide, and frame your first design direction.",
-    challenge.problem,
-    challenge.brief,
-    [
-      "What is the real urban pressure driving this city problem, and who feels it first?",
-      "How does your chosen BioMimi's strategy translate into a concrete response for this place?",
-      "What small change would show that the place is working better for people and the city over time?",
-    ],
-  );
-}
-
-function createMakerMission(challenge) {
-  return createMission(
-    `maker-${challenge.id}`,
-    challenge.area,
-    "Design a city system that can transform this urban condition.",
-    challenge.problem,
-    challenge.brief,
-    [
-      "What kind of city system would you design here, and how should it work beyond a single object?",
-      `How should ${challenge.area.toLowerCase()} flows interact differently once your idea exists?`,
-      "What would make your proposal feel realistic, teachable, and valuable in daily city life?",
-    ],
-  );
-}
-
-function createBossMission(challenge) {
-  return createMission(
-    `boss-${challenge.id}`,
-    challenge.area,
-    "Respond fast to a city problem that is already under pressure.",
-    challenge.problem,
-    challenge.brief,
-    [
-      "What would you change first if the city needed an urgent but intelligent response right now?",
-      "How could your intervention stay useful under tight limits of time, money, space, or infrastructure?",
-      "What risk or tradeoff would need the most careful design thinking as the mission scales?",
-    ],
-  );
-}
+export const BOSS_MISSIONS = [
+  { id: "boss-hot-school-yard", title: "Hot School Yard", problem: "The school yard is too hot for students.", assignedOrganism: "a2" },
+  { id: "boss-flooded-sidewalk", title: "Flooded Sidewalk", problem: "The sidewalk floods after heavy rain.", assignedOrganism: "p8" },
+  { id: "boss-dirty-building-wall", title: "Dirty Building Wall", problem: "The building wall gets dirty fast.", assignedOrganism: "p7" },
+  { id: "boss-noisy-bus-stop", title: "Noisy Bus Stop", problem: "The bus stop is loud and stressful.", assignedOrganism: "p1" },
+  { id: "boss-dry-public-square", title: "Dry Public Square", problem: "The public square feels dry and too hot.", assignedOrganism: "a7" },
+  { id: "boss-water-waste-park", title: "Water Waste in a Park", problem: "The park loses useful water.", assignedOrganism: "a3" },
+  { id: "boss-weak-emergency-shelter", title: "Weak Emergency Shelter", problem: "The emergency shelter is too weak.", assignedOrganism: "p10" },
+  { id: "boss-smelly-trash-area", title: "Smelly Trash Area", problem: "The trash area smells bad.", assignedOrganism: "a4" },
+  { id: "boss-dark-classroom", title: "Dark Classroom", problem: "The classroom needs better daylight.", assignedOrganism: "s2" },
+  { id: "boss-flooded-plaza", title: "Flooded Plaza", problem: "The plaza floods after storms.", assignedOrganism: "m1" },
+  { id: "boss-unsafe-coastal-walkway", title: "Unsafe Coastal Walkway", problem: "Waves damage the walkway.", assignedOrganism: "p3" },
+  { id: "boss-airless-classroom", title: "Airless Classroom", problem: "The classroom feels hot and stale.", assignedOrganism: "a6" },
+  { id: "boss-wasteful-school-canteen", title: "Wasteful School Canteen", problem: "The canteen throws away too much.", assignedOrganism: "s1" },
+  { id: "boss-boring-concrete-roof", title: "Boring Concrete Roof", problem: "The concrete roof is empty and hot.", assignedOrganism: "a8" },
+  { id: "boss-unsafe-bike-path-crossing", title: "Unsafe Bike Path Crossing", problem: "The bike crossing feels unsafe.", assignedOrganism: "p2" },
+  { id: "boss-windy-street-corner", title: "Windy Street Corner", problem: "The street corner is too windy.", assignedOrganism: "m2" },
+  { id: "boss-water-scarcity-dry-district", title: "Water Scarcity in a Dry District", problem: "The district does not have enough water.", assignedOrganism: "s10" },
+  { id: "boss-lifeless-school-courtyard", title: "Lifeless School Courtyard", problem: "The school courtyard has little life.", assignedOrganism: "a1" },
+  { id: "boss-hard-flood-barrier-problem", title: "Hard Flood Barrier Problem", problem: "The flood barrier is too hard and too simple.", assignedOrganism: "p9" },
+  { id: "boss-overheated-bus-terminal", title: "Overheated Bus Terminal", problem: "The bus terminal gets too hot.", assignedOrganism: "m8" },
+];
 
 export const RANDOMIZER_MISSION_POOLS = {
-  simple: CITY_CHALLENGES.map(createSimpleMission),
-  maker: MAKER_CHALLENGES.map(createMakerMission),
-  boss: CITY_CHALLENGES.map(createBossMission),
+  simple: STARTER_MISSIONS,
+  maker: MAKER_MISSIONS,
+  boss: BOSS_MISSIONS,
 };
