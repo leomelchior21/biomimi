@@ -403,7 +403,7 @@ export function renderRandomizerEngine(root, routeInfo) {
 
   function renderHome() {
     root.innerHTML = `
-      <section class="mode-page randomizer-page">
+      <section class="mode-page randomizer-page randomizer-home-page">
         <section class="randomizer-hero">
           <p class="randomizer-hero-kicker">BioMimis</p>
           <h1>Mission Randomizer</h1>
