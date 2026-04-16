@@ -356,10 +356,6 @@ export function renderRandomizerEngine(root, routeInfo) {
     modeState.bossPhase = "idle";
   }
 
-  function goHome() {
-    window.location.hash = "#/mission";
-  }
-
   function openMode(modeId) {
     const mode = MODES.find((item) => item.id === modeId);
     if (!mode) return;
@@ -467,9 +463,6 @@ export function renderRandomizerEngine(root, routeInfo) {
     root.innerHTML = `
       <section class="mode-page randomizer-page">
         <section class="randomizer-mode-screen randomizer-mode-screen-${escapeHtml(mode.id)}${isBossLoading ? " is-boss-loading" : ""}">
-          <div class="randomizer-mode-screen-topbar">
-            <button class="btn-ghost randomizer-back-btn" type="button" data-action="back">Back to modes</button>
-          </div>
           ${showGenerateBtn ? `
             <div class="randomizer-mode-launch">
               <span class="randomizer-mode-badge">${escapeHtml(mode.badge)}</span>
@@ -493,7 +486,6 @@ export function renderRandomizerEngine(root, routeInfo) {
       </section>
     `;
 
-    root.querySelector('[data-action="back"]')?.addEventListener("click", goHome);
     root.querySelectorAll('[data-action="generate"]').forEach((button) => {
       button.addEventListener("click", () => generateMission(mode.id));
     });
