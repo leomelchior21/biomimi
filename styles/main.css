@@ -7891,6 +7891,17 @@ button.randomizer-biomimi-card:hover {
     0 32px 80px rgba(28, 6, 10, 0.28);
 }
 
+.randomizer-page .randomizer-mode-screen-maker {
+  overflow: visible;
+  min-height: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
 .randomizer-page .randomizer-back-btn,
 .randomizer-page .randomizer-generate-btn {
   border-radius: 999px !important;
