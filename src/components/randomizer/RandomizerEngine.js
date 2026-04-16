@@ -162,14 +162,15 @@ function renderBossGlitchStage() {
 }
 
 function renderProblemCard(mission, mode, note = "", options = {}) {
-  const { showProblem = true, noteHref = "" } = options;
+  const { showProblem = true, noteHref = "", showBadge = true } = options;
+  const kicker = showBadge ? `${mode.title} / ${mode.badge}` : mode.title;
   const noteMarkup = noteHref
     ? `<a class="randomizer-problem-note" href="${escapeHtml(noteHref)}" target="_blank" rel="noopener noreferrer">${escapeHtml(note)}</a>`
     : `<span class="randomizer-problem-note">${escapeHtml(note)}</span>`;
 
   return `
     <section class="randomizer-challenge-card randomizer-problem-card">
-      <p class="randomizer-card-kicker">${escapeHtml(mode.title)} / ${escapeHtml(mode.badge)}</p>
+      <p class="randomizer-card-kicker">${escapeHtml(kicker)}</p>
       <h2>${escapeHtml(mission.title)}</h2>
       ${showProblem ? `<p>${escapeHtml(mission.problem)}</p>` : ""}
       ${note ? noteMarkup : ""}
@@ -295,7 +296,7 @@ function renderMakerMission(mode, mission) {
   return `
     <article class="randomizer-dashboard randomizer-dashboard-maker" aria-live="polite">
       <div class="randomizer-mission-board randomizer-maker-board">
-        ${renderProblemCard(mission, mode, "Choose your BioMimi card", { showProblem: false, noteHref: "./#/explore" })}
+        ${renderProblemCard(mission, mode, "Choose your BioMimi card", { showProblem: false, noteHref: "./#/explore", showBadge: false })}
         <section class="randomizer-challenge-card randomizer-maker-choice-panel" aria-label="Mission problem topics">
           <p class="randomizer-card-kicker">City Problem</p>
           <ul class="randomizer-maker-topic-list">
