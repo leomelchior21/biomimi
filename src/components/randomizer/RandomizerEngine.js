@@ -465,7 +465,6 @@ export function renderRandomizerEngine(root, routeInfo) {
         <section class="randomizer-mode-screen randomizer-mode-screen-${escapeHtml(mode.id)}${isBossLoading ? " is-boss-loading" : ""}">
           ${showGenerateBtn ? `
             <div class="randomizer-mode-launch">
-              <span class="randomizer-mode-badge">${escapeHtml(mode.badge)}</span>
               <h2>${escapeHtml(mode.title)}</h2>
               <p>${escapeHtml(mode.tagline)}</p>
               <button class="randomizer-generate-btn" type="button" data-action="generate">
