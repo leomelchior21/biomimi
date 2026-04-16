@@ -414,7 +414,7 @@ export function renderRandomizerEngine(root, routeInfo) {
     `;
 
     const grid = root.querySelector("#randomizer-mode-grid");
-    MODES.forEach((mode) => {
+    MODES.filter((mode) => mode.id !== "simple").forEach((mode) => {
       grid.appendChild(createModeCard(mode, () => openMode(mode.id)));
     });
   }
