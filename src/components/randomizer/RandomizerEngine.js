@@ -161,15 +161,27 @@ function renderBossGlitchStage() {
   `;
 }
 
-function renderProblemCard(mission, mode, note = "") {
+function renderProblemCard(mission, mode, note = "", options = {}) {
+  const { showProblem = true, noteHref = "" } = options;
+  const noteMarkup = noteHref
+    ? `<a class="randomizer-problem-note" href="${escapeHtml(noteHref)}" target="_blank" rel="noopener noreferrer">${escapeHtml(note)}</a>`
+    : `<span class="randomizer-problem-note">${escapeHtml(note)}</span>`;
+
   return `
     <section class="randomizer-challenge-card randomizer-problem-card">
       <p class="randomizer-card-kicker">${escapeHtml(mode.title)} / ${escapeHtml(mode.badge)}</p>
       <h2>${escapeHtml(mission.title)}</h2>
-      <p>${escapeHtml(mission.problem)}</p>
-      ${note ? `<span class="randomizer-problem-note">${escapeHtml(note)}</span>` : ""}
+      ${showProblem ? `<p>${escapeHtml(mission.problem)}</p>` : ""}
+      ${note ? noteMarkup : ""}
     </section>
   `;
+}
+
+function getProblemTopics(problem = "") {
+  return problem
+    .split(";")
+    .map((topic) => topic.trim())
+    .filter(Boolean);
 }
 
 function renderOrganismCard(organism, options = {}) {
@@ -278,13 +290,21 @@ function renderStarterMission(mode, mission, modeState) {
 }
 
 function renderMakerMission(mode, mission) {
+  const topics = getProblemTopics(mission.problem);
+
   return `
     <article class="randomizer-dashboard randomizer-dashboard-maker" aria-live="polite">
       <div class="randomizer-mission-board randomizer-maker-board">
-        ${renderProblemCard(mission, mode, "Draw the canvas first. Then explore BioMimis on your own.")}
-        <section class="randomizer-challenge-card randomizer-maker-choice-panel">
-          <p class="randomizer-card-kicker">Nature Search</p>
-          <a class="randomizer-maker-biomimi-link" href="./#/explore" target="_blank" rel="noopener noreferrer">Choose you BioMimi card</a>
+        ${renderProblemCard(mission, mode, "Choose your BioMimi card", { showProblem: false, noteHref: "./#/explore" })}
+        <section class="randomizer-challenge-card randomizer-maker-choice-panel" aria-label="Mission problem topics">
+          <p class="randomizer-card-kicker">City Problem</p>
+          <ul class="randomizer-maker-topic-list">
+            ${topics.map((topic, index) => `
+              <li class="randomizer-maker-topic-item randomizer-maker-topic-${index + 1}">
+                <span>${escapeHtml(topic)}</span>
+              </li>
+            `).join("")}
+          </ul>
         </section>
       </div>
       ${renderSketchbookCanvas()}

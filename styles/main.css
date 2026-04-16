@@ -7975,6 +7975,8 @@ button.randomizer-biomimi-card:hover {
 
 .randomizer-page .randomizer-problem-note {
   display: inline-flex;
+  align-items: center;
+  justify-content: center;
   width: max-content;
   max-width: 100%;
   padding: 10px 14px;
@@ -7983,6 +7985,12 @@ button.randomizer-biomimi-card:hover {
   color: rgba(14, 22, 40, 0.72);
   font-size: 0.92rem;
   font-weight: 800;
+  text-decoration: none;
+}
+
+a.randomizer-problem-note:hover {
+  background: rgba(255,255,255,0.62);
+  color: #102033;
 }
 
 .randomizer-page .randomizer-problem-card::after {
@@ -8142,10 +8150,93 @@ button.randomizer-biomimi-card:hover {
   align-content: center;
   justify-items: center;
   text-align: center;
+  overflow: hidden;
   background:
     radial-gradient(circle at 22% 18%, rgba(255,255,255,0.55), transparent 24%),
     radial-gradient(circle at 82% 74%, rgba(255, 196, 121, 0.28), transparent 28%),
     linear-gradient(180deg, rgba(255,255,255,0.26), rgba(255,255,255,0.1));
+}
+
+.randomizer-page .randomizer-maker-topic-list {
+  display: grid;
+  gap: 18px;
+  width: min(560px, 100%);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.randomizer-page .randomizer-maker-topic-item {
+  --topic-accent: #8de4af;
+  --topic-soft: rgba(141, 228, 175, 0.22);
+  --topic-halo: rgba(141, 228, 175, 0.2);
+  position: relative;
+  display: grid;
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: center;
+  gap: 14px;
+  min-height: 76px;
+  padding: 16px 22px;
+  border: 1px solid rgba(255,255,255,0.42);
+  border-radius: 24px !important;
+  background:
+    linear-gradient(120deg, rgba(255,255,255,0.34), rgba(255,255,255,0.14)),
+    linear-gradient(135deg, var(--topic-soft), rgba(255,255,255,0.08));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.72),
+    0 16px 30px rgba(78, 97, 142, 0.14);
+  color: #102033;
+  text-align: left;
+  transform: translateX(-10px);
+  animation: randomizerMakerTopicDrift 3.8s ease-in-out infinite alternate;
+}
+
+.randomizer-page .randomizer-maker-topic-item::before {
+  content: "";
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--topic-accent);
+  box-shadow:
+    0 0 0 7px var(--topic-halo),
+    0 0 22px var(--topic-soft);
+}
+
+.randomizer-page .randomizer-maker-topic-item span {
+  font-size: clamp(1.12rem, 1.85vw, 1.55rem);
+  font-weight: 850;
+  line-height: 1.22;
+}
+
+.randomizer-page .randomizer-maker-topic-1 {
+  --topic-accent: #8de4af;
+  --topic-soft: rgba(141, 228, 175, 0.24);
+  --topic-halo: rgba(141, 228, 175, 0.2);
+}
+
+.randomizer-page .randomizer-maker-topic-2 {
+  --topic-accent: #84d8ff;
+  --topic-soft: rgba(132, 216, 255, 0.24);
+  --topic-halo: rgba(132, 216, 255, 0.2);
+  animation-delay: -1.2s;
+  animation-direction: alternate-reverse;
+}
+
+.randomizer-page .randomizer-maker-topic-3 {
+  --topic-accent: #ffd166;
+  --topic-soft: rgba(255, 209, 102, 0.24);
+  --topic-halo: rgba(255, 209, 102, 0.2);
+  animation-delay: -2.2s;
+}
+
+@keyframes randomizerMakerTopicDrift {
+  0% {
+    transform: translateX(-14px) rotate(-0.5deg);
+  }
+
+  100% {
+    transform: translateX(14px) rotate(0.5deg);
+  }
 }
 
 .randomizer-page .randomizer-maker-biomimi-link {
@@ -8217,6 +8308,13 @@ button.randomizer-biomimi-card:hover {
 @keyframes randomizerMakerCtaShine {
   0%, 42% { transform: translateX(-130%); }
   72%, 100% { transform: translateX(130%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .randomizer-page .randomizer-maker-topic-item {
+    animation: none;
+    transform: none;
+  }
 }
 
 .randomizer-page .randomizer-sketchbook-strip {
